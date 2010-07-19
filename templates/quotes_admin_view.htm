@@ -59,6 +59,8 @@
                 {if $enablecategorization}
                 <th>{gt text='Category'}</th>
                 {/if}
+                <th>{gt text="Internal ID"}</th>
+                <th>{gt text="Status"}</th>
                 <th>{gt text='Actions'}</th>
             </tr>
         </thead>
@@ -72,6 +74,11 @@
                     {assignedcategorieslist item=$quote}
                 </td>
                 {/if}
+                <td>{$quote.qid|pnvarprepfordisplay}</td>
+                <td>
+                    {if $quote.status eq 0}<strong><em>{gt text='Inactive'}</em></strong>{/if}
+                    {if $quote.status eq 1}{gt text='Active'}{/if}
+                </td>
                 <td>
                     {foreach item='option' from=$quote.options}
                     <a href="{$option.url|safetext}">{img modname='core' set='icons/extrasmall' src=$option.image title=$option.title alt=$option.title}</a>

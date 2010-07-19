@@ -39,6 +39,13 @@
                     {/nocache}
                 </div>
                 {/if}
+                <div class="z-formrow">
+                    <label for="quote_status">{gt text="Status"}</label>
+                    <select name="quote[status]" id="quote_status">
+                        <option label="{gt text="Active"}" value="1"{if $status eq 1} selected="selected"{/if}>{gt text="Active"}</option>
+                        <option label="{gt text="Inactive"}" value="0"{if $status eq 0} selected="selected"{/if}>{gt text="Inactive"}</option>
+                    </select>
+                </div>
             </fieldset>
             <fieldset>
                 <legend>{gt text='Meta data'}</legend>
