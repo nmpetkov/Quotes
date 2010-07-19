@@ -56,6 +56,7 @@ function Quotes_admin_new()
 
         $render->assign('catregistry', $catregistry);
     }
+    $render->assign('status', 1);
 
     // assign the module vars
     $render->assign($modvars);

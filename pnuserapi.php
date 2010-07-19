@@ -46,6 +46,9 @@ function _quotes_userapi_process_args(&$args)
     if ($args['author']) {
         $wheres[] = "pn_author = '".DataUtil::formatForStore($args['author'])."'";
     }
+    if (isset($args['status'])) {
+        $wheres[] = "pn_status = '".DataUtil::formatForStore($args['status'])."'";
+    }
 
     if ($args['category']){
         if (is_array($args['category'])) {

@@ -24,10 +24,12 @@ function Quotes_pntables()
     $pntable['quotes'] = DBUtil::getLimitedTablename('quotes');
     $pntable['quotes_column'] = array('qid'    => 'pn_qid',
                                       'quote'  => 'pn_quote',
-                                      'author' => 'pn_author');
+                                      'author' => 'pn_author',
+                                      'status' => 'pn_status');
     $pntable['quotes_column_def'] = array('qid'    => 'I4 NOTNULL AUTO PRIMARY',
                                           'quote'  => 'X',
-                                          'author' => 'C(150) NOTNULL');
+                                          'author' => 'C(150) NOTNULL',
+                                          'status'   => "I1 DEFAULT '1'");
 
     // enable categorization services
     $pntable['quotes_db_extra_enable_categorization'] = pnModGetVar('Quotes', 'enablecategorization', true);

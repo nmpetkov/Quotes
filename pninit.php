@@ -61,8 +61,6 @@ function Quotes_upgrade($oldversion)
             // we don't need these variables anymore
             pnModDelVar('Quotes', 'detail');
             pnModDelVar('Quotes', 'table');
-            Quotes_upgrade(1.5);
-            break;
 
         case '1.5':
             // version 1.5 was shipped with .76x
@@ -70,20 +68,21 @@ function Quotes_upgrade($oldversion)
             if (!_quotes_migratecategories()) {
                 return LogUtil::registerError(__('Error! Update attempt failed.', $dom));
             }
-            Quotes_upgrade(2.0);
-            break;
 
         case '2.0':
             // remove the mapcatcount variable
             pnModDelVar('Quotes', 'catmapcount');
-            Quotes_upgrade(2.1);
-            break;
 
         case '2.1':
             // add the categorization variable
             pnModSetVar('Quotes', 'enablecategorization', true);
-            Quotes_upgrade(2.2);
-            break;
+
+        case '2.3':
+            // needs update of table, added status column (see in front of this function)
+            // DBUtil::changeTable('quotes')
+
+        case '2.4':
+            // future upgrade routines
     }
 
     // upgrade success

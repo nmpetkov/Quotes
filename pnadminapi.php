@@ -14,8 +14,9 @@
  * Create Quote
  * @author Greg Allan
  * @author The Zikula Development Team
- * @param 'args['qquote']' quote text
- * @param 'args['qauthor']' quote author
+ * @param 'qquote' quote text
+ * @param 'qauthor' quote author
+ * @param 'status' quote status
  * @return id of quote if success, false otherwise
  */
 function Quotes_adminapi_create($quote)
@@ -32,6 +33,7 @@ function Quotes_adminapi_create($quote)
     if (!SecurityUtil::checkPermission('Quotes::', '::', ACCESS_EDIT)) {
         return LogUtil::registerPermissionError();
     }
+    if (!isset($quote['status'])) $quote['status'] = 1;
 
     // insert the object and check the return value for error
     $res = DBUtil::insertObject($quote, 'quotes', 'qid');
@@ -88,9 +90,10 @@ function Quotes_adminapi_delete($args)
  * Update Quote
  * @author Greg Allan
  * @author The Zikula Development Team
- * @param 'args['qid']' quote ID
- * @param 'args['qquote']' quote text
- * @param 'args['qauthor']' quote author
+ * @param 'qid' quote ID
+ * @param 'qquote' quote text
+ * @param 'qauthor' quote author
+ * @param 'status' quote status
  * @return true if success, false otherwise
  */
 function Quotes_adminapi_update($quote)
@@ -100,6 +103,7 @@ function Quotes_adminapi_update($quote)
     if (!isset($quote['qid']) || !isset($quote['quote']) || !isset($quote['author'])) {
         return LogUtil::registerArgsError();
     }
+    if (!isset($quote['status'])) $quote['status'] = 1;
 
     $dom = ZLanguage::getModuleDomain('Quotes');
 

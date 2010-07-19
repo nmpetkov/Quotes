@@ -65,25 +65,19 @@ function quotes_quoteblock_display($blockinfo)
 
     // filter desplay by hour of the day - N.Petkov
 	$a_datetime = getdate();
-    if (SecurityUtil::checkPermission('Quotes:Quoteblock:', "$blockinfo[title]::", ACCESS_ADMIN)) {
-        echo 'hour='.$a_datetime["hours"].', hourfrom='.$vars['hourfrom'].', hourto='.$vars['hourto'].'<br />';
-        echo 'mday='.$a_datetime["mday"].', mdayfrom='.$vars['mdayfrom'].', mdayto='.$vars['mdayto'].'<br />';
-        echo 'wday='.$a_datetime["wday"].', wdayfrom='.$vars['wdayfrom'].', wdayto='.$vars['wdayto'].'<br />';
-        echo 'mon='.$a_datetime["mon"].', monfrom='.$vars['monfrom'].', monto='.$vars['monto'].'<br />';
-    }
 	if (isset($vars['hourfrom']) and $vars['hourfrom']>-1 and $a_datetime["hours"]<$vars['hourfrom']) return "";
 	if (isset($vars['hourto']) and $vars['hourto']>-1 and $a_datetime["hours"]>$vars['hourto']) return "";
-	if (isset($vars['monfrom']) and $vars['monfrom']>-1 and $a_datetime["mon"]<$vars['monfrom']) return "";
-	if (isset($vars['monto']) and $vars['monto']>-1 and $a_datetime["mon"]>$vars['monto']) return "";
-	if (isset($vars['mdayfrom']) and $vars['mdayfrom']>-1 and $a_datetime["mday"]<$vars['mdayfrom']) return "";
-	if (isset($vars['mdayto']) and $vars['mdayto']>-1 and $a_datetime["mday"]>$vars['mdayto']) return "";
 	if (isset($vars['wdayfrom']) and $vars['wdayfrom']>-1 and $a_datetime["wday"]<$vars['wdayfrom']) return "";
 	if (isset($vars['wdayto']) and $vars['wdayto']>-1 and $a_datetime["wday"]>$vars['wdayto']) return "";
+	if (isset($vars['mdayfrom']) and $vars['mdayfrom']>-1 and $a_datetime["mday"]<$vars['mdayfrom']) return "";
+	if (isset($vars['mdayto']) and $vars['mdayto']>-1 and $a_datetime["mday"]>$vars['mdayto']) return "";
+	if (isset($vars['monfrom']) and $vars['monfrom']>-1 and $a_datetime["mon"]<$vars['monfrom']) return "";
+	if (isset($vars['monto']) and $vars['monto']>-1 and $a_datetime["mon"]>$vars['monto']) return "";
 
     $dom = ZLanguage::getModuleDomain('Quotes');
 
     // count the number of quotes in the db
-    $total  = pnModAPIFunc('Quotes', 'user', 'countitems');
+    $total  = pnModAPIFunc('Quotes', 'user', 'countitems', array('status' => 1));
 
     // Create output object
     $render = & pnRender::getInstance('Quotes');
@@ -97,7 +91,7 @@ function quotes_quoteblock_display($blockinfo)
         $quote['error'] = __('There are too few Quotes in the database', $dom);
     } else {
         $random = mt_rand(0,($total));
-        $quotes = pnModAPIFunc('Quotes', 'user', 'getall', array('numitems' => 1, 'startnum' => $random));
+        $quotes = pnModAPIFunc('Quotes', 'user', 'getall', array('numitems' => 1, 'startnum' => $random, 'status' => 1));
         // assign the first quote in the result set (there will only ever be one...)
         $quote = $quotes[0];
         $quote['error'] = false;
