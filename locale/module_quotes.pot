@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Zikula 1.2.x\n"
+"Project-Id-Version: Zikula 1.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-19 18:15+0000\n"
+"POT-Creation-Date: 2011-01-26 15:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,7 +61,7 @@ msgstr ""
 msgid "Random quote block"
 msgstr ""
 
-#: pnblocks/quote.php:91
+#: pnblocks/quote.php:108
 msgid "There are too few Quotes in the database"
 msgstr ""
 
@@ -281,6 +281,14 @@ msgstr ""
 
 #: pntemplates/quotes_block_quote_modify.htm:58
 msgid "To month"
+msgstr ""
+
+#: pntemplates/quotes_block_quote_modify.htm:67
+msgid "Cache time (enter positive number in seconds to enable cache)"
+msgstr ""
+
+#: pntemplates/quotes_block_quote_modify.htm:71
+msgid "Cache directory name (within Zikula pnTemp directory)"
 msgstr ""
 
 #: pntemplates/quotes_admin_delete.htm:2
