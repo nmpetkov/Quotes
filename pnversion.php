@@ -15,7 +15,7 @@ $vrdom = ZLanguage::getModuleDomain('Quotes');
 $modversion['name']           = 'Quotes';
 $modversion['displayname']    = __('Quotes', $vrdom);
 $modversion['description']    = __('Random quotes', $vrdom);
-$modversion['version']        = '2.4';
+$modversion['version']        = '2.5';
 //! this defines the module's url
 $modversion['url']            = __('quotes', $vrdom);
 $modversion['changelog']      = '';

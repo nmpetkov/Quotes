@@ -83,6 +83,9 @@ function Quotes_upgrade($oldversion)
 
         case '2.4':
             // future upgrade routines
+
+        case '2.5':
+            // future upgrade routines
     }
 
     // upgrade success
