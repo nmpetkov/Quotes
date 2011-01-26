@@ -54,15 +54,12 @@ function quotes_quoteblock_display($blockinfo)
     if (!SecurityUtil::checkPermission('Quotes:Quoteblock:', "$blockinfo[title]::", ACCESS_READ)) {
         return;
     }
-
     // check if the quotes module is available
     if (!pnModAvailable('Quotes')) {
         return;
     }
-
     // Get current content
     $vars = pnBlockVarsFromContent($blockinfo['content']);
-
     // filter desplay by hour of the day - N.Petkov
 	$a_datetime = getdate();
 	if (isset($vars['hourfrom']) and $vars['hourfrom']>-1 and $a_datetime["hours"]<$vars['hourfrom']) return "";
@@ -76,33 +73,61 @@ function quotes_quoteblock_display($blockinfo)
 
     $dom = ZLanguage::getModuleDomain('Quotes');
 
-    // count the number of quotes in the db
-    $total  = pnModAPIFunc('Quotes', 'user', 'countitems', array('status' => 1));
-
-    // Create output object
-    $render = & pnRender::getInstance('Quotes');
-
-    mt_srand((double)microtime()*1000000);
-
-    $quote = array();
-    // display an error if there are less than two quotes in the db
-    // otherwise assign a random quote to the template
-    if ($total < 2) {
-        $quote['error'] = __('There are too few Quotes in the database', $dom);
-    } else {
-        $random = mt_rand(0,($total));
-        $quotes = pnModAPIFunc('Quotes', 'user', 'getall', array('numitems' => 1, 'startnum' => $random, 'status' => 1));
-        // assign the first quote in the result set (there will only ever be one...)
-        $quote = $quotes[0];
-        $quote['error'] = false;
-    }
-
-    $render->assign('quote', $quote);
-    $render->assign('bid', $blockinfo['bid']);
-
-    // get the block output from the template
-    $blockinfo['content'] = $render->fetch('quotes_block_quote.htm');
-
+	// Implementation cached content
+	$enable_cache = true;
+	$write_to_cache = false;	# flag
+	$cache_time = 120; # sek
+	if (isset($vars['cache_time'])) $cache_time = $vars['cache_time'];
+	$content = "";
+	if ($enable_cache and $cache_time>0) {
+		$cachefilestem = 'quote_' . $blockinfo['bid'];
+	    $cachedir = pnConfigGetVar('temp');
+	    if (StringUtil::right($cachedir, 1)<>'/') $cachedir .= '/';
+	    if (isset($vars['cache_dir']) and !empty($vars['cache_dir'])) $cachedir .= $vars['cache_dir'];
+	    else $cachedir .= 'any_cache';
+	    $cachefile = $cachedir .'/'. $cachefilestem;
+	   // attempt to load from cache
+		if (file_exists($cachefile)) {
+			$file_time = filectime($cachefile);
+			$now = time();
+			$diff = ($now - $file_time);
+			if ($diff <= $cache_time) {
+			    $content = file_get_contents($cachefile);
+			}
+		}
+		if (empty($content)) $write_to_cache = true; # not loaded, flag to write to cache later
+	}
+	if (empty($content)) {
+	    // Create output object
+	    $render = & pnRender::getInstance('Quotes');
+	    mt_srand((double)microtime()*1000000);
+	    $quote = array();
+	    // display an error if there are less than two quotes in the db, otherwise assign a random quote to the template
+	    $total  = pnModAPIFunc('Quotes', 'user', 'countitems', array('status' => 1)); # count the number of quotes in the db
+	    if ($total < 2) {
+	        $quote['error'] = __('There are too few Quotes in the database', $dom);
+	    } else {
+	        $random = mt_rand(0,($total));
+	        $quotes = pnModAPIFunc('Quotes', 'user', 'getall', array('numitems' => 1, 'startnum' => $random, 'status' => 1));
+	        // assign the first quote in the result set (there will only ever be one...)
+	        $quote = $quotes[0];
+	        $quote['error'] = false;
+	    }
+	    $render->assign('quote', $quote);
+	    $render->assign('bid', $blockinfo['bid']);
+	    $content = $render->fetch('quotes_block_quote.htm'); # get the block output from the template
+	}
+	if ($write_to_cache and !empty($content)) {
+	   // attempt to write to cache if not loaded before
+		if (!file_exists($cachedir)) {
+			mkdir($cachedir, 0777); # attempt to make the dir
+		}
+		if (!file_put_contents($cachefile, $content)) {
+			//echo "<br />Could not save data to cache. Please make sure your cache directory exists and is writable.<br />";
+		}
+	}
+	$blockinfo['content'] = $content;
+	
     // return the rendered block
     return pnBlockThemeBlock($blockinfo);
 }
@@ -144,6 +169,12 @@ function quotes_quoteblock_modify($blockinfo)
     if (!isset($vars['wdayto'])) {
         $vars['wdayto'] = -1;
     }
+    if (!isset($vars['cache_time'])) {
+        $vars['cache_time'] = 120;
+    }
+    if (!isset($vars['cache_dir'])) {
+        $vars['cache_dir'] = 'any_cache';
+    }
 
     // Create output object
     $pnRender = pnRender::getInstance('Quotes', false);
@@ -180,6 +211,8 @@ function quotes_quoteblock_update($blockinfo)
     $vars['mdayto'] = FormUtil::getPassedValue('mdayto');
     $vars['wdayfrom'] = FormUtil::getPassedValue('wdayfrom');
     $vars['wdayto'] = FormUtil::getPassedValue('wdayto');
+    $vars['cache_time'] = FormUtil::getPassedValue('cache_time');
+    $vars['cache_dir'] = FormUtil::getPassedValue('cache_dir');
 
     // write back the new contents
     $blockinfo['content'] = pnBlockVarsToContent($vars);
