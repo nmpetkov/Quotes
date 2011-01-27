@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Zikula 1.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-26 15:21+0000\n"
+"POT-Creation-Date: 2011-01-27 15:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,11 +36,11 @@ msgstr ""
 msgid "Done! Quote deleted."
 msgstr ""
 
-#: pnversion.php:16 pninit.php:136 pntemplates/quotes_admin_menu.htm:6
+#: pnversion.php:16 pninit.php:139 pntemplates/quotes_admin_menu.htm:6
 msgid "Quotes"
 msgstr ""
 
-#: pnversion.php:17 pninit.php:137
+#: pnversion.php:17 pninit.php:140
 msgid "Random quotes"
 msgstr ""
 
@@ -105,15 +105,15 @@ msgstr ""
 msgid "Error! Creation attempt failed."
 msgstr ""
 
-#: pninit.php:69 pninit.php:210
+#: pninit.php:69 pninit.php:213
 msgid "Error! Update attempt failed."
 msgstr ""
 
-#: pninit.php:187
+#: pninit.php:190
 msgid "Imported quotes"
 msgstr ""
 
-#: pninit.php:188
+#: pninit.php:191
 msgid "Quotes imported from .7x version"
 msgstr ""
 
@@ -288,7 +288,7 @@ msgid "Cache time (enter positive number in seconds to enable cache)"
 msgstr ""
 
 #: pntemplates/quotes_block_quote_modify.htm:71
-msgid "Cache directory name (within Zikula pnTemp directory)"
+msgid "Cache directory name (within Zikula Temp directory)"
 msgstr ""
 
 #: pntemplates/quotes_admin_delete.htm:2

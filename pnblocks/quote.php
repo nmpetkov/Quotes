@@ -76,7 +76,7 @@ function quotes_quoteblock_display($blockinfo)
 	// Implementation cached content
 	$enable_cache = true;
 	$write_to_cache = false;	# flag
-	$cache_time = 120; # sek
+	$cache_time = 120; # seconds
 	if (isset($vars['cache_time'])) $cache_time = $vars['cache_time'];
 	$content = "";
 	if ($enable_cache and $cache_time>0) {
