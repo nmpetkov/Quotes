@@ -70,9 +70,10 @@ function quotes_quoteblock_display($blockinfo)
 	if (isset($vars['mdayto']) and $vars['mdayto']>-1 and $a_datetime["mday"]>$vars['mdayto']) return "";
 	if (isset($vars['monfrom']) and $vars['monfrom']>-1 and $a_datetime["mon"]<$vars['monfrom']) return "";
 	if (isset($vars['monto']) and $vars['monto']>-1 and $a_datetime["mon"]>$vars['monto']) return "";
-
-    $dom = ZLanguage::getModuleDomain('Quotes');
-
+    // Setting of the Defaults
+    if (!isset($vars['category'])) {
+        $vars['category'] = null;
+    }
 	// Implementation cached content
 	$enable_cache = true;
 	$write_to_cache = false;	# flag
@@ -99,16 +100,33 @@ function quotes_quoteblock_display($blockinfo)
 	}
 	if (empty($content)) {
 	    // Create output object
+	    $dom = ZLanguage::getModuleDomain('Quotes');
 	    $render = & pnRender::getInstance('Quotes');
 	    mt_srand((double)microtime()*1000000);
 	    $quote = array();
+	    $apiargs = array();
+	    $apiargs['status'] = 1;
+	    // Make a category filter only if categorization is enabled in News module
+	    $enablecategorization = pnModGetVar('Quotes', 'enablecategorization');
+	    if ($enablecategorization) {
+	        // load the categories system
+	        if (!Loader::loadClass('CategoryRegistryUtil')) {
+	            return LogUtil::registerError(__f('Error! Could not load [%s] class.'), 'CategoryRegistryUtil', $dom);
+	        }
+	        // Get the registrered categories for the module
+	        $catregistry  = CategoryRegistryUtil::getRegisteredModuleCategories('Quotes', 'quotes');
+	        $apiargs['catregistry'] = $catregistry;
+	        $apiargs['category'] = $vars['category'];
+	    }
 	    // display an error if there are less than two quotes in the db, otherwise assign a random quote to the template
-	    $total  = pnModAPIFunc('Quotes', 'user', 'countitems', array('status' => 1)); # count the number of quotes in the db
+	    $total  = pnModAPIFunc('Quotes', 'user', 'countitems', $apiargs); # count the number of quotes in the db
 	    if ($total < 2) {
 	        $quote['error'] = __('There are too few Quotes in the database', $dom);
 	    } else {
-	        $random = mt_rand(0,($total));
-	        $quotes = pnModAPIFunc('Quotes', 'user', 'getall', array('numitems' => 1, 'startnum' => $random, 'status' => 1));
+	        $random = mt_rand(1, $total);
+	        $apiargs['numitems'] = 1;
+	        $apiargs['startnum'] = $random;
+	        $quotes = pnModAPIFunc('Quotes', 'user', 'getall', $apiargs);
 	        // assign the first quote in the result set (there will only ever be one...)
 	        $quote = $quotes[0];
 	        $quote['error'] = false;
@@ -143,7 +161,6 @@ function quotes_quoteblock_modify($blockinfo)
 {
     // Get current content
     $vars = pnBlockVarsFromContent($blockinfo['content']);
-
     // Defaults
     if (!isset($vars['hourfrom'])) {
         $vars['hourfrom'] = -1;
@@ -175,19 +192,30 @@ function quotes_quoteblock_modify($blockinfo)
     if (!isset($vars['cache_dir'])) {
         $vars['cache_dir'] = 'any_cache';
     }
-
+    $dom = ZLanguage::getModuleDomain('Quotes');
     // Create output object
-    $pnRender = pnRender::getInstance('Quotes', false);
-
+    $render = pnRender::getInstance('Quotes', false);
+    $render->caching = false; # Admin output changes often, we do not want caching
+    // Select categories only if enabled for the module
+    $enablecategorization = pnModGetVar('Quotes', 'enablecategorization');
+    if ($enablecategorization) {
+        // load the categories system
+        if (!Loader::loadClass('CategoryRegistryUtil')) {
+            return LogUtil::registerError(__f('Error! Could not load [%s] class.'), 'CategoryRegistryUtil', $dom);
+        }
+        // Get the registrered categories for the module
+        $catregistry  = CategoryRegistryUtil::getRegisteredModuleCategories('Quotes', 'quotes');
+        $render->assign('catregistry', $catregistry);
+    }
+    $render->assign('enablecategorization', $enablecategorization);
     // assign the vars
-    $pnRender->assign($vars);
-    $pnRender->assign('hours', range(0, 23));
-    $pnRender->assign('months', range(1, 12));
-    $pnRender->assign('wdays', range(1, 7));
-    $pnRender->assign('mdays', range(1, 31));
-
+    $render->assign($vars);
+    $render->assign('hours', range(0, 23));
+    $render->assign('months', range(1, 12));
+    $render->assign('wdays', range(1, 7));
+    $render->assign('mdays', range(1, 31));
     // return the output
-    return $pnRender->fetch('quotes_block_quote_modify.htm');
+    return $render->fetch('quotes_block_quote_modify.htm');
 }
 
 /**
@@ -213,13 +241,14 @@ function quotes_quoteblock_update($blockinfo)
     $vars['wdayto'] = FormUtil::getPassedValue('wdayto');
     $vars['cache_time'] = FormUtil::getPassedValue('cache_time');
     $vars['cache_dir'] = FormUtil::getPassedValue('cache_dir');
+    $vars['category'] = FormUtil::getPassedValue('category', null);
 
     // write back the new contents
     $blockinfo['content'] = pnBlockVarsToContent($vars);
 
     // clear the block cache
-    $pnRender = pnRender::getInstance('Quotes');
-    $pnRender->clear_cache('quotes_block_quote.htm');
+    $render = pnRender::getInstance('Quotes');
+    $render->clear_cache('quotes_block_quote.htm');
 
     return $blockinfo;
 }
