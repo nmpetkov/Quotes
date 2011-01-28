@@ -63,6 +63,19 @@
 		<!--[/section]-->
     </select>
 </div>
+<!--[if $enablecategorization]-->
+<div class="z-formrow">
+    <label><!--[gt text='Choose categories' domain='module_quotes']--></label>
+    <!--[nocache]-->
+    <!--[foreach from=$catregistry key='prop' item='cat']-->
+    <!--[array_field_isset assign='selectedValue' array=$category field=$prop returnValue=1]-->
+    <div class="z-formnote">
+        <!--[selector_category category=$cat name="category[$prop]" multipleSize=5 selectedValue=$selectedValue]-->
+    </div>
+    <!--[/foreach]-->
+    <!--[/nocache]-->
+</div>
+<!--[/if]-->
 <div class="z-formrow">
     <label for="blocks_cache_time"><!--[gt text="Cache time (enter positive number in seconds to enable cache)" domain='module_quotes']--></label>
     <input id="blocks_cache_time" type="text" name="cache_time" size="10" maxlength="50" value="<!--[$cache_time|pnvarprepfordisplay]-->" />

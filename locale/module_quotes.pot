@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Zikula 1.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-27 15:58+0000\n"
+"POT-Creation-Date: 2011-01-27 21:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,7 +61,12 @@ msgstr ""
 msgid "Random quote block"
 msgstr ""
 
-#: pnblocks/quote.php:108
+#: pnblocks/quote.php:114 pnblocks/quote.php:204
+#, php-format
+msgid "Error! Could not load [%s] class."
+msgstr ""
+
+#: pnblocks/quote.php:124
 msgid "There are too few Quotes in the database"
 msgstr ""
 
@@ -130,7 +135,7 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
-#: pntemplates/quotes_admin_new.htm:26
+#: pntemplates/quotes_admin_new.htm:26 pntemplates/quotes_admin_modify.htm:28
 msgid "Choose a category"
 msgstr ""
 
@@ -283,11 +288,15 @@ msgstr ""
 msgid "To month"
 msgstr ""
 
-#: pntemplates/quotes_block_quote_modify.htm:67
+#: pntemplates/quotes_block_quote_modify.htm:68
+msgid "Choose categories"
+msgstr ""
+
+#: pntemplates/quotes_block_quote_modify.htm:80
 msgid "Cache time (enter positive number in seconds to enable cache)"
 msgstr ""
 
-#: pntemplates/quotes_block_quote_modify.htm:71
+#: pntemplates/quotes_block_quote_modify.htm:84
 msgid "Cache directory name (within Zikula Temp directory)"
 msgstr ""
 
