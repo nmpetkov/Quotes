@@ -1,29 +1,27 @@
 <?php
 /**
  * Zikula Application Framework
- *
- * @copyright (c) 2002, Zikula Development Team
- * @link http://www.zikula.org
- * @version $Id: Admin.php 439 2010-07-06 14:49:42Z drak $
- * @license GNU/GPL - http://www.gnu.org/copyleft/gpl.html
- * @package Zikula_Value_Addons
+ * @copyright  (c) Zikula Development Team
+ * @license    GNU/GPL
+ * @category   Zikula_3rdParty_Modules
+ * @package    Content_Management
  * @subpackage Quotes
  */
-
-class Quotes_Api_Admin extends Zikula_Api
+ 
+class Quotes_Api_Admin extends Zikula_AbstractApi
 {
-    /**
-     * Create Quote
-     * @author Greg Allan
-     * @author The Zikula Development Team
-     * @param 'args['qquote']' quote text
-     * @param 'args['qauthor']' quote author
-     * @return id of quote if success, false otherwise
-     */
+	/**
+	 * Create Quote
+	 * @author Greg Allan
+	 * @author The Zikula Development Team
+	 * @param 'qquote' quote text
+	 * @param 'qauthor' quote author
+	 * @param 'status' quote status
+	 * @return id of quote if success, false otherwise
+	 */
     public function create($quote)
     {
-        // the argument associative array represents an object/row
-        // argument check
+        // the argument associative array represents an object/row argument check
         if (!isset($quote['quote']) || !isset($quote['author'])) {
             return LogUtil::registerArgsError();
         }
@@ -89,15 +87,16 @@ class Quotes_Api_Admin extends Zikula_Api
      * @param 'args['qid']' quote ID
      * @param 'args['qquote']' quote text
      * @param 'args['qauthor']' quote author
+	 * @param 'status' quote status
      * @return true if success, false otherwise
      */
     public function update($quote)
     {
-        // the argument associative array represents an object/row
-        // argument check
+        // the argument associative array represents an object/row argument check
         if (!isset($quote['qid']) || !isset($quote['quote']) || !isset($quote['author'])) {
             return LogUtil::registerArgsError();
         }
+		if (!isset($quote['status'])) $quote['status'] = 1;
 
         // get the existing quote
         $item = ModUtil::apiFunc('Quotes', 'user', 'get', array('qid' => $quote['qid']));
@@ -140,7 +139,7 @@ class Quotes_Api_Admin extends Zikula_Api
             $links[] = array('url' => ModUtil::url('Quotes', 'admin', 'view'), 'text' => $this->__('View Quotes List'));
         }
         if (SecurityUtil::checkPermission('Quotes::', '::', ACCESS_ADD)) {
-            $links[] = array('url' => ModUtil::url('Quotes', 'admin', 'newquote'), 'text' => $this->__('Create a Quote'));
+            $links[] = array('url' => ModUtil::url('Quotes', 'admin', 'newitem'), 'text' => $this->__('Create a Quote'));
         }
         if (SecurityUtil::checkPermission('Quotes::', '::', ACCESS_ADMIN)) {
             $links[] = array('url' => ModUtil::url('Quotes', 'admin', 'modifyconfig'), 'text' => $this->__('Settings'));

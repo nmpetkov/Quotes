@@ -1,16 +1,14 @@
 <?php
 /**
  * Zikula Application Framework
- *
- * @copyright (c) 2002, Zikula Development Team
- * @link http://www.zikula.org
- * @version $Id: Installer.php 439 2010-07-06 14:49:42Z drak $
- * @license GNU/GPL - http://www.gnu.org/copyleft/gpl.html
- * @package Zikula_Value_Addons
+ * @copyright  (c) Zikula Development Team
+ * @license    GNU/GPL
+ * @category   Zikula_3rdParty_Modules
+ * @package    Content_Management
  * @subpackage Quotes
  */
-
-class Quotes_Installer extends Zikula_Installer
+ 
+class Quotes_Installer extends Zikula_AbstractInstaller
 {
     /**
      * Init quotes module
@@ -24,11 +22,11 @@ class Quotes_Installer extends Zikula_Installer
             return false;
         }
 
-        // set up config variables
+        // set up module config variables
         $modvars = array(
                 'itemsperpage' => 25,
                 'enablecategorization' => true,
-                'catmapcount' => true
+                'catmapcount' => 3
         );
 
         // create our default category
@@ -51,42 +49,64 @@ class Quotes_Installer extends Zikula_Installer
      */
     public function upgrade($oldversion)
     {
-        // update table
-        if (!DBUtil::changeTable('quotes')) {
-            return false;
-        }
-
         // upgrade dependent on old version number
         switch ($oldversion)
         {
             case '1.3':
-            // version 1.3 was shipped with .72x/.75
+				// version 1.3 was shipped with .72x/.75
                 ModUtil::setVar('Quotes', 'itemsperpage', 25);
                 // we don't need these variables anymore
                 ModUtil::delVar('Quotes', 'detail');
                 ModUtil::delVar('Quotes', 'table');
 
             case '1.5':
-            // version 1.5 was shipped with .76x
-            // migrate the quotes into the default category
+				// version 1.5 was shipped with .76x
+				// migrate the quotes into the default category
                 if (!$this->_migratecategories()) {
                     return LogUtil::registerError($this->__('Error! Update attempt failed.'));
                 }
 
             case '2.0':
-            // remove the mapcatcount variable
+				// remove the mapcatcount variable
                 ModUtil::delVar('Quotes', 'catmapcount');
 
             case '2.1':
             // add the categorization variable
                 ModUtil::setVar('Quotes', 'enablecategorization', true);
-
+				$sqlStatements = array();
             case '2.2':
             case '2.3':
-            // further upgrade routines
+            case '2.5':
+                $connection = Doctrine_Manager::getInstance()->getConnection('default');
+                $sqlStatements = array();
+				// drop table prefix
+                $prefix = $this->serviceManager['prefix'];
+                $sqlStatements[] = 'RENAME TABLE ' . $prefix . '_quotes' . " TO `quotes`";
+                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_qid` `qid` INT(11) NOT NULL AUTO_INCREMENT";
+                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_quote` `quote` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL";
+                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_author` `author` VARCHAR(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL";
+                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_obj_status` `obj_status` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'A'";
+                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_cr_date` `cr_date` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00'";
+                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_cr_uid` `cr_uid` INT(11) NOT NULL DEFAULT '0'";
+                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_lu_date` `lu_date` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00'";
+                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_lu_uid` `lu_uid` INT(11) NOT NULL DEFAULT '0'";
+                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_status` `status` TINYINT(4) NULL DEFAULT '1'";
+                foreach ($sqlStatements as $sql) {
+                    $stmt = $connection->prepare($sql);
+                    try {
+                        $stmt->execute();
+                    } catch (Exception $e) {
+                    }   
+                }
+				// update table structure according to tabe defenition
+				if (!DBUtil::changeTable('quotes')) {
+					return "2.5";
+				}
+            case '3.0.0':
+            // future upgrade routines
         }
 
-        // upgrade success
+		// upgrade success
         return true;
     }
 
@@ -117,7 +137,6 @@ class Quotes_Installer extends Zikula_Installer
     {
         // get the language
         $lang = ZLanguage::getLanguageCode();
-        $dom = ZLanguage::getModuleDomain('Quotes');
 
         // get the category path for which we're going to insert our place holder category
         $rootcat = CategoryUtil::getCategoryByPath('/__SYSTEM__/Modules');
@@ -161,7 +180,6 @@ class Quotes_Installer extends Zikula_Installer
     {
         // get the language file
         $lang = ZLanguage::getLanguageCode();
-        $dom = ZLanguage::getModuleDomain('Quotes');
         $catPath = '/__SYSTEM__/Modules/Quotes';
 
         // create root category and entry in the categories registry

@@ -1,0 +1,313 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Zikula 1.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-01-27 21:41+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: pnadmin.php:53 pnadmin.php:98 pnadmin.php:222
+msgid "Error! Unable to load class [%s%]"
+msgstr ""
+
+#: pnadmin.php:137
+msgid "Edit"
+msgstr ""
+
+#: pnadmin.php:142
+msgid "Delete"
+msgstr ""
+
+#: pnadmin.php:205 pnadmin.php:260 pnadminapi.php:70 pnadminapi.php:113
+msgid "No such Quote found."
+msgstr ""
+
+#: pnadmin.php:292
+msgid "Done! Quote deleted."
+msgstr ""
+
+#: pnversion.php:16 pninit.php:139 pntemplates/quotes_admin_menu.tpl:6
+msgid "Quotes"
+msgstr ""
+
+#: pnversion.php:17 pninit.php:140
+msgid "Random quotes"
+msgstr ""
+
+#. ! this defines the module's url
+#: pnversion.php:20
+msgid "quotes"
+msgstr ""
+
+#: pnuserapi.php:117
+msgid "Error! Could not load the quotes."
+msgstr ""
+
+#: pnblocks/quote.php:35 pntemplates/quotes_admin_view.tpl:57
+msgid "Quote"
+msgstr ""
+
+#: pnblocks/quote.php:36
+msgid "Random quote block"
+msgstr ""
+
+#: pnblocks/quote.php:114 pnblocks/quote.php:204
+#, php-format
+msgid "Error! Could not load [%s] class."
+msgstr ""
+
+#: pnblocks/quote.php:124
+msgid "There are too few Quotes in the database"
+msgstr ""
+
+#: pnadminform.php:37
+msgid "Done! Quote created."
+msgstr ""
+
+#: pnadminform.php:74
+msgid "Done! Quote updated."
+msgstr ""
+
+#: pnadminform.php:112
+msgid "Done! Module configuration updated."
+msgstr ""
+
+#: pnadminapi.php:41
+msgid "Error! Quote creation failed."
+msgstr ""
+
+#: pnadminapi.php:76
+msgid "Error! Quote deletion failed."
+msgstr ""
+
+#: pnadminapi.php:128
+msgid "Error! Quote update failed."
+msgstr ""
+
+#: pnadminapi.php:151 pntemplates/quotes_admin_view.tpl:3
+msgid "View Quotes List"
+msgstr ""
+
+#: pnadminapi.php:154 pntemplates/quotes_admin_new.tpl:2
+msgid "Create a Quote"
+msgstr ""
+
+#: pnadminapi.php:157 pntemplates/quotes_admin_modifyconfig.tpl:2
+msgid "Settings"
+msgstr ""
+
+#: pninit.php:29
+msgid "Error! Creation attempt failed."
+msgstr ""
+
+#: pninit.php:69 pninit.php:213
+msgid "Error! Update attempt failed."
+msgstr ""
+
+#: pninit.php:190
+msgid "Imported quotes"
+msgstr ""
+
+#: pninit.php:191
+msgid "Quotes imported from .7x version"
+msgstr ""
+
+#: pntemplates/quotes_admin_new.tpl:16 pntemplates/quotes_admin_modify.tpl:18
+msgid "Quote Text"
+msgstr ""
+
+#: pntemplates/quotes_admin_new.tpl:20 pntemplates/quotes_admin_view.tpl:45
+#: pntemplates/quotes_admin_view.tpl:58 pntemplates/quotes_admin_modify.tpl:22
+msgid "Author"
+msgstr ""
+
+#: pntemplates/quotes_admin_new.tpl:25 pntemplates/quotes_admin_modify.tpl:27
+msgid "Categories"
+msgstr ""
+
+#: pntemplates/quotes_admin_new.tpl:26 pntemplates/quotes_admin_modify.tpl:28
+msgid "Choose a category"
+msgstr ""
+
+#: pntemplates/quotes_admin_new.tpl:35 pntemplates/quotes_admin_view.tpl:63
+#: pntemplates/quotes_admin_modify.tpl:43
+msgid "Status"
+msgstr ""
+
+#: pntemplates/quotes_admin_new.tpl:37 pntemplates/quotes_admin_view.tpl:80
+#: pntemplates/quotes_admin_modify.tpl:45
+msgid "Active"
+msgstr ""
+
+#: pntemplates/quotes_admin_new.tpl:38 pntemplates/quotes_admin_view.tpl:79
+#: pntemplates/quotes_admin_modify.tpl:46
+msgid "Inactive"
+msgstr ""
+
+#: pntemplates/quotes_admin_new.tpl:46
+msgid "Create"
+msgstr ""
+
+#: pntemplates/quotes_admin_new.tpl:47
+#: pntemplates/quotes_admin_modifyconfig.tpl:29
+#: pntemplates/quotes_admin_modify.tpl:66
+#: pntemplates/quotes_admin_delete.tpl:20
+msgid "Cancel"
+msgstr ""
+
+#: pntemplates/quotes_admin_modifyconfig.tpl:16
+msgid "Enable categorization"
+msgstr ""
+
+#: pntemplates/quotes_admin_modifyconfig.tpl:20
+msgid "Items per page"
+msgstr ""
+
+#: pntemplates/quotes_admin_modifyconfig.tpl:28
+msgid "Save"
+msgstr ""
+
+#: pntemplates/quotes_admin_view.tpl:16 pntemplates/quotes_admin_view.tpl:60
+msgid "Category"
+msgstr ""
+
+#: pntemplates/quotes_admin_view.tpl:17
+msgid "All"
+msgstr ""
+
+#: pntemplates/quotes_admin_view.tpl:41
+msgid "Search by keyword"
+msgstr ""
+
+#: pntemplates/quotes_admin_view.tpl:49
+msgid "Filter"
+msgstr ""
+
+#: pntemplates/quotes_admin_view.tpl:50
+msgid "Clear"
+msgstr ""
+
+#: pntemplates/quotes_admin_view.tpl:62
+msgid "Internal ID"
+msgstr ""
+
+#: pntemplates/quotes_admin_view.tpl:64
+msgid "Actions"
+msgstr ""
+
+#: pntemplates/quotes_admin_view.tpl:89
+msgid "No Quotes found."
+msgstr ""
+
+#: pntemplates/quotes_admin_modify.tpl:2
+msgid "Update Quote"
+msgstr ""
+
+#: pntemplates/quotes_admin_modify.tpl:16
+msgid "Content"
+msgstr ""
+
+#: pntemplates/quotes_admin_modify.tpl:51
+msgid "Meta data"
+msgstr ""
+
+#: pntemplates/quotes_admin_modify.tpl:54
+#, php-format
+msgid "Created by %s"
+msgstr ""
+
+#: pntemplates/quotes_admin_modify.tpl:55
+#, php-format
+msgid "Created on %s"
+msgstr ""
+
+#: pntemplates/quotes_admin_modify.tpl:57
+#, php-format
+msgid "Last update by %s"
+msgstr ""
+
+#: pntemplates/quotes_admin_modify.tpl:58
+#, php-format
+msgid "Updated on %s"
+msgstr ""
+
+#: pntemplates/quotes_admin_modify.tpl:65
+msgid "Update"
+msgstr ""
+
+#: pntemplates/quotes_block_quote_modify.tpl:3
+msgid "From hour"
+msgstr ""
+
+#: pntemplates/quotes_block_quote_modify.tpl:5
+#: pntemplates/quotes_block_quote_modify.tpl:12
+#: pntemplates/quotes_block_quote_modify.tpl:21
+#: pntemplates/quotes_block_quote_modify.tpl:28
+#: pntemplates/quotes_block_quote_modify.tpl:37
+#: pntemplates/quotes_block_quote_modify.tpl:44
+#: pntemplates/quotes_block_quote_modify.tpl:53
+#: pntemplates/quotes_block_quote_modify.tpl:60
+msgid "Not set"
+msgstr ""
+
+#: pntemplates/quotes_block_quote_modify.tpl:10
+msgid "To hour"
+msgstr ""
+
+#: pntemplates/quotes_block_quote_modify.tpl:19
+msgid "From day of the week"
+msgstr ""
+
+#: pntemplates/quotes_block_quote_modify.tpl:26
+msgid "To day of the week"
+msgstr ""
+
+#: pntemplates/quotes_block_quote_modify.tpl:35
+msgid "From day of the month"
+msgstr ""
+
+#: pntemplates/quotes_block_quote_modify.tpl:42
+msgid "To day of the month"
+msgstr ""
+
+#: pntemplates/quotes_block_quote_modify.tpl:51
+msgid "From month"
+msgstr ""
+
+#: pntemplates/quotes_block_quote_modify.tpl:58
+msgid "To month"
+msgstr ""
+
+#: pntemplates/quotes_block_quote_modify.tpl:68
+msgid "Choose categories"
+msgstr ""
+
+#: pntemplates/quotes_block_quote_modify.tpl:80
+msgid "Cache time (enter positive number in seconds to enable cache)"
+msgstr ""
+
+#: pntemplates/quotes_block_quote_modify.tpl:84
+msgid "Cache directory name (within Zikula Temp directory)"
+msgstr ""
+
+#: pntemplates/quotes_admin_delete.tpl:2
+msgid "Delete Quote"
+msgstr ""
+
+#: pntemplates/quotes_admin_delete.tpl:11
+msgid "Do you really want to delete this Quote?"
+msgstr ""
+
+#: pntemplates/quotes_admin_delete.tpl:19
+msgid "Confirm deletion?"
+msgstr ""

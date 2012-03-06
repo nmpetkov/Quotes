@@ -1,5 +1,5 @@
 /*
- *  $Id: quotes.js 334 2009-11-09 05:51:54Z drak $ 
+ *  $Id: quotes.js 358 2009-11-11 13:46:21Z herr.vorragend $ 
  */
  
 /**

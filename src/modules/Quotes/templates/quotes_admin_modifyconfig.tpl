@@ -1,16 +1,16 @@
-{*  $Id: quotes_admin_modifyconfig.htm 424 2010-06-26 19:42:54Z drak $  *}
+{*  $Id: quotes_admin_modifyconfig.tpl 358 2009-11-11 13:46:21Z herr.vorragend $  *}
 {gt text='Settings' assign='templatetitle'}
 
-{include file='quotes_admin_menu.htm'}
+{include file='quotes_admin_menu.tpl'}
 
 <div class="z-admincontainer">
     <div class="z-adminpageicon">{img modname='core' src='configure.gif' set='icons/large' alt=$templatetitle}</div>
 
     <h2>{$templatetitle}</h2>
 
-    <form class="z-form" action="{modurl modname='Quotes' type='adminform' func='updateconfig'}" method="post" enctype="application/x-www-form-urlencoded">
+    <form class="z-form" action="{modurl modname='Quotes' type='admin' func='updateconfig'}" method="post" enctype="application/x-www-form-urlencoded">
         <div>
-            <input type="hidden" name="authid" value="{insert name='generateauthkey' module='Quotes'}" />
+            <input type="hidden" name="csrftoken" value="{insert name='csrftoken'}" />
             <fieldset>
                 <div class="z-formrow">
                     <label for="quotes_enablecategorization">{gt text='Enable categorization'}</label>
@@ -18,12 +18,9 @@
                 </div>
                 <div class="z-formrow">
                     <label for="quotes_itemsperpage">{gt text='Items per page'}</label>
-                    <input id="quotes_itemsperpage" type="text" name="itemsperpage" size="3" value="{$itemsperpage|safetext}" />
+                    <input id="quotes_itemsperpage" type="text" name="itemsperpage" size="3" value="{$itemsperpage|pnvarprepfordisplay}" />
                 </div>
             </fieldset>
-
-            {modcallhooks hookobject='module' hookaction='modifyconfig' module='Quotes'}
-
             <div class="z-formbuttons">
                 {button src='button_ok.gif' set='icons/small' __alt='Save' __title='Save'}
                 <a href="{modurl modname='Quotes' type='admin' func='view'}">{img modname='core' src='button_cancel.gif' set='icons/small' __alt='Cancel' __title='Cancel'}</a>

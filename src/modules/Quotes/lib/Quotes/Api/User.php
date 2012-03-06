@@ -1,20 +1,17 @@
 <?php
 /**
  * Zikula Application Framework
- *
- * @copyright (c) 2002, Zikula Development Team
- * @link http://www.zikula.org
- * @version $Id: User.php 439 2010-07-06 14:49:42Z drak $
- * @license GNU/GPL - http://www.gnu.org/copyleft/gpl.html
- * @package Zikula_Value_Addons
+ * @copyright  (c) Zikula Development Team
+ * @license    GNU/GPL
+ * @category   Zikula_3rdParty_Modules
+ * @package    Content_Management
  * @subpackage Quotes
  */
 
-class Quotes_Api_User extends Zikula_Api
+class Quotes_Api_User extends Zikula_AbstractApi
 {
     /**
      * process user input and form a WHERE clause
-     *
      * @return string SQL where clause
      */
     private function _process_args(&$args)
@@ -45,8 +42,11 @@ class Quotes_Api_User extends Zikula_Api
         // build the where clause
         $wheres = array();
         if ($args['author']) {
-            $wheres[] = "pn_author = '".DataUtil::formatForStore($args['author'])."'";
+            $wheres[] = "author = '".DataUtil::formatForStore($args['author'])."'";
         }
+		if (isset($args['status'])) {
+			$wheres[] = "status = '".DataUtil::formatForStore($args['status'])."'";
+		}
 
         if ($args['category']){
             if (is_array($args['category'])) {
@@ -58,7 +58,7 @@ class Quotes_Api_User extends Zikula_Api
         }
 
         if ($args['keyword']) {
-            $wheres[] = "pn_quote LIKE '%".DataUtil::formatForStore($args['keyword'])."%'";
+            $wheres[] = "quote LIKE '%".DataUtil::formatForStore($args['keyword'])."%'";
         }
 
         $args['where'] = implode (' AND ', $wheres);

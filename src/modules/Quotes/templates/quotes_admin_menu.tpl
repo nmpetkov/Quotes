@@ -1,4 +1,4 @@
-{*  $Id: quotes_admin_menu.htm 415 2010-06-14 04:51:50Z drak $  *}
+{*  $Id: quotes_admin_menu.tpl 358 2009-11-11 13:46:21Z herr.vorragend $  *}
 
 {admincategorymenu}
 
