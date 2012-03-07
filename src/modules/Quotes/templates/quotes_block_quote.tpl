@@ -1,4 +1,4 @@
-{capture assign='quotestyles'}
+{capture assign='templatestyles'}
 <style type="text/css">
     .z-bid-{{$bid}} q {
         display: block;
@@ -10,7 +10,7 @@
     }
 </style>
 {/capture}
-{pageaddvar name='header' value=$quotestyles}
+{pageaddvar name='header' value=$templatestyles}
 
 {if $quote.error neq false}
 {$errormsg|safehtml}

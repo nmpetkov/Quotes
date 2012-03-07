@@ -25,8 +25,7 @@ class Quotes_Installer extends Zikula_AbstractInstaller
         // set up module config variables
         $modvars = array(
                 'itemsperpage' => 25,
-                'enablecategorization' => true,
-                'catmapcount' => 3
+                'enablecategorization' => true
         );
 
         // create our default category
@@ -103,7 +102,7 @@ class Quotes_Installer extends Zikula_AbstractInstaller
 					return "2.5";
 				}
             case '3.0.0':
-            // future upgrade routines
+				// future upgrade routines
         }
 
 		// upgrade success

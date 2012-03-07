@@ -47,7 +47,6 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
 
         if ($modvars['enablecategorization']) {
             $catregistry = CategoryRegistryUtil::getRegisteredModuleCategories('Quotes', 'quotes');
-
             $this->view->assign('catregistry', $catregistry);
         }
 		$this->view->assign('status', 1);
@@ -119,12 +118,12 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
         {
             // options for the item
             $options = array();
-            if (SecurityUtil::checkPermission('Quotes::', "$quote[author]::$quote[qid]", ACCESS_EDIT)) {
+            if (SecurityUtil::checkPermission('Quotes::', $quote['author']."::".$quote['qid'], ACCESS_EDIT)) {
                 $quotes[$key]['options'][] = array('url'   => ModUtil::url('Quotes', 'admin', 'modify', array('qid' => $quote['qid'])),
                         'image' => 'xedit.gif',
                         'title' => $this->__('Edit'));
 
-                if (SecurityUtil::checkPermission('Quotes::', "$quote[author]::$quote[qid]", ACCESS_DELETE)) {
+                if (SecurityUtil::checkPermission('Quotes::', $quote['author']."::".$quote['qid'], ACCESS_DELETE)) {
                     $quotes[$key]['options'][] = array('url'   => ModUtil::url('Quotes', 'admin', 'delete', array('qid' => $quote['qid'])),
                             'image' => '14_layer_deletelayer.gif',
                             'title' => $this->__('Delete'));

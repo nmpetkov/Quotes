@@ -1,16 +1,12 @@
-{*  $Id: quotes_admin_new.tpl 358 2009-11-11 13:46:21Z herr.vorragend $  *}
-{gt text='Create a Quote' assign='templatetitle'}
-
+{gt text='Create new quote' assign='templatetitle'}
 {include file='quotes_admin_menu.tpl'}
-
 <div class="z-admincontainer">
     <div class="z-adminpageicon">{img modname='core' src='filenew.gif' set='icons/large' alt=$templatetitle}</div>
-
     <h2>{$templatetitle}</h2>
 
     <form class="z-form" action="{modurl modname='Quotes' type='admin' func='create'}" method="post" enctype="application/x-www-form-urlencoded">
         <div>
-            <<input type="hidden" name="csrftoken" value="{insert name='csrftoken'}" />
+            <input type="hidden" name="csrftoken" value="{insert name='csrftoken'}" />
             <fieldset>
                 <div class="z-formrow">
                     <label for="quote_quote">{gt text='Quote Text'}</label>
@@ -32,7 +28,7 @@
                 </div>
                 {/if}
                 <div class="z-formrow">
-                    <label for="quote_status">{gt text="Status"}</label>
+                    <label for="quote_status">{gt text='Status'}</label>
                     <select name="quote[status]" id="quote_status">
                         <option label="{gt text="Active"}" value="1"{if $status eq 1} selected="selected"{/if}>{gt text="Active"}</option>
                         <option label="{gt text="Inactive"}" value="0"{if $status eq 0} selected="selected"{/if}>{gt text="Inactive"}</option>

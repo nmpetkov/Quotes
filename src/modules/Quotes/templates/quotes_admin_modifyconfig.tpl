@@ -1,11 +1,7 @@
-{*  $Id: quotes_admin_modifyconfig.tpl 358 2009-11-11 13:46:21Z herr.vorragend $  *}
 {gt text='Settings' assign='templatetitle'}
-
 {include file='quotes_admin_menu.tpl'}
-
 <div class="z-admincontainer">
     <div class="z-adminpageicon">{img modname='core' src='configure.gif' set='icons/large' alt=$templatetitle}</div>
-
     <h2>{$templatetitle}</h2>
 
     <form class="z-form" action="{modurl modname='Quotes' type='admin' func='updateconfig'}" method="post" enctype="application/x-www-form-urlencoded">
@@ -18,7 +14,7 @@
                 </div>
                 <div class="z-formrow">
                     <label for="quotes_itemsperpage">{gt text='Items per page'}</label>
-                    <input id="quotes_itemsperpage" type="text" name="itemsperpage" size="3" value="{$itemsperpage|pnvarprepfordisplay}" />
+                    <input id="quotes_itemsperpage" type="text" name="itemsperpage" size="3" value="{$itemsperpage|safetext}" />
                 </div>
             </fieldset>
             <div class="z-formbuttons">

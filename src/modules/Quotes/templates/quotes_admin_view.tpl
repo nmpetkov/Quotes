@@ -1,12 +1,8 @@
-{*  $Id: quotes_admin_view.tpl 358 2009-11-11 13:46:21Z herr.vorragend $  *}
 {ajaxheader modname='Quotes' filename='quotes.js' nobehaviour=true noscriptaculous=true}
-{gt text='View Quotes List' assign='templatetitle'}
-
+{gt text='Quotes List' assign='templatetitle'}
 {include file='quotes_admin_menu.tpl'}
-
 <div class="z-admincontainer">
     <div class="z-adminpageicon">{img modname='core' src='windowlist.gif' set='icons/large' alt=$templatetitle}</div>
-
     <h2>{$templatetitle}</h2>
 
     <form action="{modurl modname='Quotes' type='admin' func='view'}" method="post" enctype="application/x-www-form-urlencoded">
@@ -40,11 +36,12 @@
             {/if}
             <label for="quotes_keyword">{gt text='Search by keyword'}:</label>
             <input type="hidden" name="csrftoken" value="{insert name='csrftoken'}" />
-            <input id="quotes_keyword" type="text" name="quotes_keyword" value="{$quotes_keyword|pnvarprepfordisplay}" size="20" maxlength="128" />
+            <input id="quotes_keyword" type="text" name="quotes_keyword" value="{$quotes_keyword|safetext}" size="20" maxlength="128" />
             &nbsp;
             <label for="quotes_author">{gt text='Author'}</label>
             {nocache}
-            {selector_field_array modname='Quotes' table='quotes' name='quotes_author' field='author' assocKey='author' name='quotes_author' sort='author' selectedValue=$quotes_author defaultValue='' defaultText=$lblDef distinct=1 truncate=30}
+			{gt text='All authors' assign='lbLAllAuthors'}
+            {selector_field_array modname='Quotes' table='quotes' name='quotes_author' field='author' assocKey='author' sort='author' allText=$lbLAllAuthors allValue='' selectedValue=$quotes_author defaultValue='' defaultText=$lbLAllAuthors distinct=1 truncate=30}
             {/nocache}
             <input name="submit" type="submit" value="{gt text='Filter'}" />
             <input name="clear" type="submit" value="{gt text='Clear'}" />
@@ -67,21 +64,21 @@
         <tbody>
             {foreach from=$quotes item='quote'}
             <tr class="{cycle values='z-odd,z-even'}">
-                <td>{$quote.quote|pnvarprepfordisplay}</td>
-                <td>{$quote.author|pnvarprepfordisplay}</td>
+                <td>{$quote.quote|safehtml}</td>
+                <td>{$quote.author|safehtml}</td>
                 {if $enablecategorization}
                 <td>
                     {assignedcategorieslist item=$quote}
                 </td>
                 {/if}
-                <td>{$quote.qid|pnvarprepfordisplay}</td>
+                <td>{$quote.qid|safetext}</td>
                 <td>
                     {if $quote.status eq 0}<strong><em>{gt text='Inactive'}</em></strong>{/if}
                     {if $quote.status eq 1}{gt text='Active'}{/if}
                 </td>
                 <td>
                     {foreach item='option' from=$quote.options}
-                    <a href="{$option.url|pnvarprepfordisplay}">{img modname='core' set='icons/extrasmall' src=$option.image title=$option.title alt=$option.title}</a>
+                    <a href="{$option.url|safetext}">{img modname='core' set='icons/extrasmall' src=$option.image title=$option.title alt=$option.title}</a>
                     {/foreach}
                 </td>
             </tr>
@@ -91,5 +88,5 @@
         </tbody>
     </table>
 
-    {pager rowcount=$pager.numitems limit=$pager.itemsperpage posvar='startnum' shift=1}
+    {pager rowcount=$pager.numitems limit=$pager.itemsperpage posvar='startnum'}
 </div>

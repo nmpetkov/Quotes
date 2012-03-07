@@ -27,7 +27,7 @@ class Quotes_Api_Admin extends Zikula_AbstractApi
         }
 
         // security check
-        if (!SecurityUtil::checkPermission('Quotes::', '::', ACCESS_EDIT)) {
+        if (!SecurityUtil::checkPermission('Quotes::', '::', ACCESS_ADD)) {
             return LogUtil::registerPermissionError();
         }
 
@@ -106,10 +106,10 @@ class Quotes_Api_Admin extends Zikula_AbstractApi
 
         // security check(s)
         // check permissions for both the original and modified quotes
-        if (!SecurityUtil::checkPermission('Quotes::', "$item[author]::$quote[qid]", ACCESS_EDIT)) {
+        if (!SecurityUtil::checkPermission('Quotes::', $item['author']."::".$quote['qid'], ACCESS_EDIT)) {
             return LogUtil::registerPermissionError();
         }
-        if (!SecurityUtil::checkPermission('Quotes::', "$quote[author]::$quote[qid]", ACCESS_EDIT)) {
+        if (!SecurityUtil::checkPermission('Quotes::', $item['author']."::".$quote['qid'], ACCESS_EDIT)) {
             return LogUtil::registerPermissionError();
         }
 

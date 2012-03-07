@@ -1,26 +1,21 @@
-{*  $Id: quotes_admin_modify.tpl 358 2009-11-11 13:46:21Z herr.vorragend $  *}
 {gt text='Update Quote' assign='templatetitle'}
-
 {include file='quotes_admin_menu.tpl'}
-
 <div class="z-admincontainer">
     <div class="z-adminpageicon">{img modname='core' src='edit.gif' set='icons/large' alt=$templatetitle}</div>
-
     <h2>{$templatetitle}</h2>
-
     <form class="z-form" action="{modurl modname='Quotes' type='admin' func='update'}" method="post" enctype="application/x-www-form-urlencoded">
         <div>
             <input type="hidden" name="csrftoken" value="{insert name='csrftoken'}" />
-            <input type="hidden" name="quote[qid]" value="{$qid|pnvarprepfordisplay}" />
+            <input type="hidden" name="quote[qid]" value="{$qid|safetext}" />
             <fieldset>
                 <legend>{gt text='Content'}</legend>
                 <div class="z-formrow">
                     <label for="quote_quote">{gt text='Quote Text'}</label>
-                    <textarea id="quote_quote" rows="8" name="quote[quote]" cols="50">{$quote|pnvarprepfordisplay}</textarea>
+                    <textarea id="quote_quote" rows="8" name="quote[quote]" cols="50">{$quote|safehtml}</textarea>
                 </div>
                 <div class="z-formrow">
                     <label for="quote_author">{gt text='Author'}</label>
-                    <input id="quote_author" type="text" name="quote[author]" size="30" maxlength="128" value="{$author|pnvarprepfordisplay}" />
+                    <input id="quote_author" type="text" name="quote[author]" size="30" maxlength="128" value="{$author|safehtml}" />
                 </div>
                 {if $enablecategorization}
                 <div class="z-formrow">
@@ -52,10 +47,10 @@
                 <ul>
                     {usergetvar name='uname' uid=$cr_uid assign='username'}
                     <li>{gt text='Created by %s' tag1=$username}</li>
-                    <li>{gt text='Created on %s' tag1=$cr_date|pndate_format}</li>
+                    <li>{gt text='Created on %s' tag1=$cr_date|date_format}</li>
                     {usergetvar name='uname' uid=$lu_uid assign='username'}
                     <li>{gt text='Last update by %s' tag1=$username}</li>
-                    <li>{gt text='Updated on %s' tag1=$lu_date|pndate_format}</li>
+                    <li>{gt text='Updated on %s' tag1=$lu_date|date_format}</li>
                 </ul>
             </fieldset>
             <div class="z-formbuttons">
