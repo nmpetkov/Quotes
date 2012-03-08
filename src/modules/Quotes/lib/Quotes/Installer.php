@@ -70,7 +70,7 @@ class Quotes_Installer extends Zikula_AbstractInstaller
                 ModUtil::delVar('Quotes', 'catmapcount');
 
             case '2.1':
-            // add the categorization variable
+				// add the categorization variable
                 ModUtil::setVar('Quotes', 'enablecategorization', true);
 				$sqlStatements = array();
             case '2.2':

@@ -25,7 +25,7 @@ class Quotes_Block_Quote extends Zikula_Controller_AbstractBlock
 	 */
 	public function info()
 	{
-		return array('module' => 'Quotes',
+		return array('module' => $this->name,
 					 'text_type' => $this->__('Quote'),
 					 'text_type_long' => $this->__('Random quote block'),
 					 'allow_multiple' => true,
@@ -58,10 +58,10 @@ class Quotes_Block_Quote extends Zikula_Controller_AbstractBlock
 		if (isset($vars['mdayto']) and $vars['mdayto']>-1 and $a_datetime["mday"]>$vars['mdayto']) return "";
 		if (isset($vars['monfrom']) and $vars['monfrom']>-1 and $a_datetime["mon"]<$vars['monfrom']) return "";
 		if (isset($vars['monto']) and $vars['monto']>-1 and $a_datetime["mon"]>$vars['monto']) return "";
-		// Setting of the Defaults
 		if (!isset($vars['category'])) {
 			$vars['category'] = null;
 		}
+
 		// Implementation cached content: @nikp
 		$enable_cache = true;
 		$write_to_cache = false;	# flag
@@ -92,30 +92,36 @@ class Quotes_Block_Quote extends Zikula_Controller_AbstractBlock
 			$quote = array();
 			$apiargs = array();
 			$apiargs['status'] = 1;
-			// Make a category filter only if categorization is enabled in News module
-			$enablecategorization = ModUtil::getVar('Quotes', 'enablecategorization');
+			// Make a category filter only if categorization is enabled
+			$enablecategorization = ModUtil::getVar($this->name, 'enablecategorization');
 			if ($enablecategorization) {
 				// load the categories system
 				if (!Loader::loadClass('CategoryRegistryUtil')) {
 					return LogUtil::registerError(__f('Error! Could not load [%s] class.'), 'CategoryRegistryUtil');
 				}
 				// Get the registrered categories for the module
-				$catregistry  = CategoryRegistryUtil::getRegisteredModuleCategories('Quotes', 'quotes');
+				$catregistry  = CategoryRegistryUtil::getRegisteredModuleCategories($this->name, 'quotes');
+				$this->view->assign('catregistry', $catregistry);
 				$apiargs['catregistry'] = $catregistry;
 				$apiargs['category'] = $vars['category'];
 			}
+			$this->view->assign('enablecategorization', $enablecategorization);
+			$this->view->assign($vars); // assign the block vars
+			if (!is_array($vars['category'])) $vars['category'] = array();
+			$this->view->assign('category', $vars['category']);
 			// display an error if there are less than two quotes in the db, otherwise assign a random quote to the template
-			$total  = ModUtil::apiFunc('Quotes', 'user', 'countitems', $apiargs); # count the number of quotes in the db
-			if ($total < 2) {
+			$total  = ModUtil::apiFunc($this->name, 'user', 'countitems', $apiargs); # count the number of quotes in the db
+			$apiargs['numitems'] = 1;
+			if ($total < 1) {
 				$quote['error'] = __('There are too few Quotes in the database');
+			} else if ($total == 1) {
+				$quotes = ModUtil::apiFunc($this->name, 'user', 'getall', $apiargs);
+				$quote = $quotes[0];
 			} else {
 				$random = mt_rand(1, $total);
-				$apiargs['numitems'] = 1;
 				$apiargs['startnum'] = $random;
-				$quotes = ModUtil::apiFunc('Quotes', 'user', 'getall', $apiargs);
-				// assign the first quote in the result set (there will only ever be one...)
-				$quote = $quotes[0];
-				$quote['error'] = false;
+				$quotes = ModUtil::apiFunc($this->name, 'user', 'getall', $apiargs);
+				$quote = $quotes[0]; // assign the first quote in the result set
 			}
 			$this->view->assign('quote', $quote);
 			$this->view->assign('bid', $blockinfo['bid']);
@@ -181,19 +187,20 @@ class Quotes_Block_Quote extends Zikula_Controller_AbstractBlock
 		// Create output object
 		$this->view->caching = false; # Admin output changes often, we do not want caching
 		// Select categories only if enabled for the module
-		$enablecategorization = ModUtil::getVar('Quotes', 'enablecategorization');
+		$enablecategorization = ModUtil::getVar($this->name, 'enablecategorization');
 		if ($enablecategorization) {
 			// load the categories system
 			if (!Loader::loadClass('CategoryRegistryUtil')) {
 				return LogUtil::registerError(__f('Error! Could not load [%s] class.'), 'CategoryRegistryUtil');
 			}
 			// Get the registrered categories for the module
-			$catregistry  = CategoryRegistryUtil::getRegisteredModuleCategories('Quotes', 'quotes');
+			$catregistry  = CategoryRegistryUtil::getRegisteredModuleCategories($this->name, 'quotes');
 			$this->view->assign('catregistry', $catregistry);
 		}
 		$this->view->assign('enablecategorization', $enablecategorization);
-		// assign the vars
-		$this->view->assign($vars);
+		$this->view->assign($vars); // assign the block vars
+		if (!is_array($vars['category'])) $vars['category'] = array();
+		$this->view->assign('category', $vars['category']);
 		$this->view->assign('hours', range(0, 23));
 		$this->view->assign('months', range(1, 12));
 		$this->view->assign('wdays', range(1, 7));

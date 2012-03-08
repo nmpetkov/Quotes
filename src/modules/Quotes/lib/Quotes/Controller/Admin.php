@@ -41,12 +41,12 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
         }
 
         // get all module vars
-        $modvars = ModUtil::getVar('Quotes');
+        $modvars = ModUtil::getVar($this->name);
 
         $this->view->setCaching(false);
 
         if ($modvars['enablecategorization']) {
-            $catregistry = CategoryRegistryUtil::getRegisteredModuleCategories('Quotes', 'quotes');
+            $catregistry = CategoryRegistryUtil::getRegisteredModuleCategories($this->name, 'quotes');
             $this->view->assign('catregistry', $catregistry);
         }
 		$this->view->assign('status', 1);
@@ -81,10 +81,10 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
         }
 
         // get all module vars
-        $modvars = ModUtil::getVar('Quotes');
+        $modvars = ModUtil::getVar($this->name);
 
         if ($modvars['enablecategorization']) {
-            $catregistry  = CategoryRegistryUtil::getRegisteredModuleCategories('Quotes', 'quotes');
+            $catregistry  = CategoryRegistryUtil::getRegisteredModuleCategories($this->name, 'quotes');
             $properties = array_keys($catregistry);
 
             // validate and build the category filter - mateo
@@ -105,7 +105,7 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
         }
 
         // get the matching quotes
-        $quotes = ModUtil::apiFunc('Quotes', 'user', 'getall',
+        $quotes = ModUtil::apiFunc($this->name, 'user', 'getall',
                 array('startnum' => $startnum,
                 'numitems' => $modvars['itemsperpage'],
                 'keyword'  => $keyword,
@@ -119,12 +119,12 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
             // options for the item
             $options = array();
             if (SecurityUtil::checkPermission('Quotes::', $quote['author']."::".$quote['qid'], ACCESS_EDIT)) {
-                $quotes[$key]['options'][] = array('url'   => ModUtil::url('Quotes', 'admin', 'modify', array('qid' => $quote['qid'])),
+                $quotes[$key]['options'][] = array('url'   => ModUtil::url($this->name, 'admin', 'modify', array('qid' => $quote['qid'])),
                         'image' => 'xedit.gif',
                         'title' => $this->__('Edit'));
 
                 if (SecurityUtil::checkPermission('Quotes::', $quote['author']."::".$quote['qid'], ACCESS_DELETE)) {
-                    $quotes[$key]['options'][] = array('url'   => ModUtil::url('Quotes', 'admin', 'delete', array('qid' => $quote['qid'])),
+                    $quotes[$key]['options'][] = array('url'   => ModUtil::url($this->name, 'admin', 'delete', array('qid' => $quote['qid'])),
                             'image' => '14_layer_deletelayer.gif',
                             'title' => $this->__('Delete'));
                 }
@@ -156,7 +156,7 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
 
         // assign the values for the smarty plugin to produce a pager
         $this->view->assign('pager', array('itemsperpage' => $modvars['itemsperpage'],
-                'numitems' => ModUtil::apiFunc('Quotes', 'user', 'countitems',
+                'numitems' => ModUtil::apiFunc($this->name, 'user', 'countitems',
                 array('keyword'  => $keyword,
                 'author'   => $author,
                 'category' => isset($catFilter) ? $catFilter : null))));
@@ -184,7 +184,7 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
         }
 
         // get the quote
-        $quote = ModUtil::apiFunc('Quotes', 'user', 'get', array('qid' => $qid));
+        $quote = ModUtil::apiFunc($this->name, 'user', 'get', array('qid' => $qid));
         if (!$quote) {
             return DataUtil::formatForDisplayHTML($this->__('No such Quote found.'));
         }
@@ -195,11 +195,11 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
         }
 
         // get all module vars
-        $modvars = ModUtil::getVar('Quotes');
+        $modvars = ModUtil::getVar($this->name);
 
         if ($modvars['enablecategorization']) {
             // load the category registry util
-            $catregistry = CategoryRegistryUtil::getRegisteredModuleCategories('Quotes', 'quotes');
+            $catregistry = CategoryRegistryUtil::getRegisteredModuleCategories($this->name, 'quotes');
 
             $this->view->assign('catregistry', $catregistry);
         }
@@ -231,7 +231,7 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
         }
 
         // get the quote
-        $item = ModUtil::apiFunc('Quotes', 'user', 'get', array('qid' => $qid));
+        $item = ModUtil::apiFunc($this->name, 'user', 'get', array('qid' => $qid));
         if ($item == false) {
             return LogUtil::registerError ($this->__('No such Quote found.'));
         }
@@ -261,13 +261,13 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
         $this->checkCsrfToken();
 
         // delete the quote
-        if (ModUtil::apiFunc('Quotes', 'admin', 'delete', array('qid' => $qid))) {
+        if (ModUtil::apiFunc($this->name, 'admin', 'delete', array('qid' => $qid))) {
             LogUtil::registerStatus($this->__('Done! Quote deleted.'));
         }
 
         // This function generated no output, and so now it is complete we redirect
         // the user to an appropriate page for them to carry on their work
-        return System::redirect(ModUtil::url('Quotes', 'admin', 'view'));
+        return System::redirect(ModUtil::url($this->name, 'admin', 'view'));
     }
 
     /**
@@ -283,8 +283,7 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
         }
 
         $this->view->setCaching(false);
-        // number of items to display per page + catmapcount
-        $this->view->assign(ModUtil::getVar('Quotes'));
+        $this->view->assign(ModUtil::getVar($this->name));
 
         // return the output that has been generated by this function
         return $this->view->fetch('quotes_admin_modifyconfig.tpl');
@@ -307,13 +306,13 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
 
         // notable by its absence there is no security check here.
         // create the quote
-        $qid = ModUtil::apiFunc('Quotes', 'admin', 'create', $quote);
+        $qid = ModUtil::apiFunc($this->name, 'admin', 'create', $quote);
         if ($qid != false) {
             // success
             LogUtil::registerStatus($this->__('Done! Quote created.'));
         }
 
-        return System::redirect(ModUtil::url('Quotes', 'admin', 'view'));
+        return System::redirect(ModUtil::url($this->name, 'admin', 'view'));
     }
 
     /**
@@ -341,14 +340,14 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
 
         // notable by its absence there is no security check here.
         // update the quote
-        if (ModUtil::apiFunc('Quotes', 'admin', 'update', $quote)) {
+        if (ModUtil::apiFunc($this->name, 'admin', 'update', $quote)) {
             // success
             LogUtil::registerStatus($this->__('Done! Quote updated.'));
         }
 
         // this function generated no output, and so now it is complete we redirect
         // the user to an appropriate page for them to carry on their work
-        return System::redirect(ModUtil::url('Quotes', 'admin', 'view'));
+        return System::redirect(ModUtil::url($this->name, 'admin', 'view'));
     }
 
     /**
@@ -374,6 +373,6 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
 
         // this function generated no output, and so now it is complete we redirect
         // the user to an appropriate page for them to carry on their work
-        return System::redirect(ModUtil::url('Quotes', 'admin', 'view'));
+        return System::redirect(ModUtil::url($this->name, 'admin', 'view'));
     }
 }

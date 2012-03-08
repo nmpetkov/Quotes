@@ -1,8 +1,9 @@
-{gt text='Update Quote' assign='templatetitle'}
+{gt text='Edit Quote' assign='templatetitle'}
 {include file='quotes_admin_menu.tpl'}
 <div class="z-admincontainer">
     <div class="z-adminpageicon">{img modname='core' src='edit.gif' set='icons/large' alt=$templatetitle}</div>
     <h2>{$templatetitle}</h2>
+	
     <form class="z-form" action="{modurl modname='Quotes' type='admin' func='update'}" method="post" enctype="application/x-www-form-urlencoded">
         <div>
             <input type="hidden" name="csrftoken" value="{insert name='csrftoken'}" />

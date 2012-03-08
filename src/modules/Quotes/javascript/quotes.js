@@ -1,7 +1,3 @@
-/*
- *  $Id: quotes.js 358 2009-11-11 13:46:21Z herr.vorragend $ 
- */
- 
 /**
  * create the onload function to enable the respective functions
  *

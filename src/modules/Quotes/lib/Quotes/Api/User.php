@@ -61,7 +61,7 @@ class Quotes_Api_User extends Zikula_AbstractApi
             $wheres[] = "quote LIKE '%".DataUtil::formatForStore($args['keyword'])."%'";
         }
 
-        $args['where'] = implode (' AND ', $wheres);
+        $args['where'] = implode(' AND ', $wheres);
 
         return $args['where'];
     }
@@ -110,7 +110,7 @@ class Quotes_Api_User extends Zikula_AbstractApi
         // check for an error with the database code, and if so set an appropriate
         // error message and return
         if ($objArray === false) {
-            return LogUtil::registerError($this->__('Error! Could not load the quotes.'));
+            return LogUtil::registerError($this->__('Error! Could not load any quotes.'));
         }
 
         // need to do this here as the category expansion code can't know the
