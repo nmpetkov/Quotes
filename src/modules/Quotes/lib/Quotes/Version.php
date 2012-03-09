@@ -16,7 +16,6 @@ class Quotes_Version extends Zikula_AbstractVersion
         $meta['version'] = '3.0.0';
         $meta['url'] = $this->__('quotes');
         $meta['core_min'] = '1.3.0'; // requires minimum 1.3.0 or later
-        $meta['capabilities'] = array(HookUtil::SUBSCRIBER_CAPABLE => array('enabled' => true));
         $meta['securityschema'] = array('Quotes::' => 'Author name::Quote ID');
         return $meta;
     }

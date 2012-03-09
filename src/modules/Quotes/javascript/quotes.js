@@ -2,10 +2,7 @@
  * create the onload function to enable the respective functions
  *
  */
-Event.observe(window, 
-              'load', 
-              quotes_init_check,
-              false);
+Event.observe(window, 'load', quotes_init_check, false);
 
 function quotes_init_check()
 {

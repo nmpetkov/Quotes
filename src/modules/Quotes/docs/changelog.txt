@@ -3,8 +3,10 @@ CHANGELOG
 
 #### 3.0.0 (5 Mar 2012)
     By nikp (N.Petkov). Quotes is converted to Zikula 1.3 standarts, and is not backward compatible with Zikula 1.2.x
-        * conversion to correct template delimiters { }
+        * conversion to correct template delimiters { } and standarts
         * removed all deprecated plugin and function calls
+        * filtering and sorting capabilities in admin view function/template
+		* legacy hooks are removed, no hook capabilities for now
 
 #### 2.5 (26 Jan 2011)
 	By nikp (N.Petkov). Last version compatible with Zikula 1.2.x

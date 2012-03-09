@@ -160,6 +160,7 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
         $this->view->assign('quotes_keyword', $keyword);
         $this->view->assign('sort', $sort);
         $this->view->assign('sortdir', $sortdir);
+		$this->view->assign('filter_active', (empty($author) && empty($keyword) && empty($category)) ? false : true);
 
         // assign the categories information if enabled
         if ($modvars['enablecategorization']) {

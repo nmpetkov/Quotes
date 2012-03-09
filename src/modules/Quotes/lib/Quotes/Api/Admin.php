@@ -37,9 +37,6 @@ class Quotes_Api_Admin extends Zikula_AbstractApi
             return LogUtil::registerError($this->__('Error! Quote creation failed.'));
         }
 
-        // let any hooks know that we have created a new item.
-        $this->callHooks('item', 'create', $quote['qid'], array('module' => 'Quotes'));
-
         // return the id of the newly created item to the calling process
         return $quote['qid'];
     }
@@ -73,10 +70,6 @@ class Quotes_Api_Admin extends Zikula_AbstractApi
         // delete any object category mappings for this item
         ObjectUtil::deleteObjectCategories($item, 'quotes', 'qid');
 
-        // let any hooks know that we have deleted an item.
-        $this->callHooks('item', 'delete', $args['qid'], array('module' => 'Quotes'));
-
-        // let the calling process know that we have finished successfully
         return true;
     }
 
@@ -119,10 +112,6 @@ class Quotes_Api_Admin extends Zikula_AbstractApi
             return LogUtil::registerError($this->__('Error! Quote update failed.'));
         }
 
-        // new hook functions
-        ModUtil::callHooks('item', 'update', $quote['qid'], array('module' => 'Quotes'));
-
-        // let the calling process know that we have finished successfully
         return true;
     }
 
@@ -136,13 +125,13 @@ class Quotes_Api_Admin extends Zikula_AbstractApi
         $links = array();
 
         if (SecurityUtil::checkPermission('Quotes::', '::', ACCESS_EDIT)) {
-            $links[] = array('url' => ModUtil::url('Quotes', 'admin', 'view'), 'text' => $this->__('View Quotes List'));
+            $links[] = array('url' => ModUtil::url('Quotes', 'admin', 'view'), 'text' => $this->__('Quotes list'), 'class' => 'z-icon-es-view');
         }
         if (SecurityUtil::checkPermission('Quotes::', '::', ACCESS_ADD)) {
-            $links[] = array('url' => ModUtil::url('Quotes', 'admin', 'newitem'), 'text' => $this->__('Create a Quote'));
+            $links[] = array('url' => ModUtil::url('Quotes', 'admin', 'newitem'), 'text' => $this->__('Create quote'), 'class' => 'z-icon-es-new');
         }
         if (SecurityUtil::checkPermission('Quotes::', '::', ACCESS_ADMIN)) {
-            $links[] = array('url' => ModUtil::url('Quotes', 'admin', 'modifyconfig'), 'text' => $this->__('Settings'));
+            $links[] = array('url' => ModUtil::url('Quotes', 'admin', 'modifyconfig'), 'text' => $this->__('Settings'), 'class' => 'z-icon-es-config');
         }
 
         return $links;
