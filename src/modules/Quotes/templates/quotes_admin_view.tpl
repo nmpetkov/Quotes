@@ -51,13 +51,13 @@
     <table class="z-admintable">
         <thead>
             <tr>
-                <th>{gt text='Quote'}</th>
-                <th>{gt text='Author'}</th>
+                <th>{sortlink __linktext='Quote content' sort='quote' currentsort=$sort sortdir=$sortdir modname='Quotes' type='admin' func='view' keyword=$quotes_keyword author=$quotes_author property=$property category=$category}</th>
+                <th>{sortlink __linktext='Author' sort='author' currentsort=$sort sortdir=$sortdir modname='Quotes' type='admin' func='view' keyword=$quotes_keyword author=$quotes_author property=$property category=$category}</th>
                 {if $enablecategorization}
                 <th>{gt text='Category'}</th>
                 {/if}
-                <th>{gt text="Internal ID"}</th>
-                <th>{gt text="Status"}</th>
+                <th>{sortlink __linktext='Internal ID' sort='qid' currentsort=$sort sortdir=$sortdir modname='Quotes' type='admin' func='view' keyword=$quotes_keyword author=$quotes_author property=$property category=$category}</th>
+                <th>{sortlink __linktext='Status' sort='status' currentsort=$sort sortdir=$sortdir modname='Quotes' type='admin' func='view' keyword=$quotes_keyword author=$quotes_author property=$property category=$category}</th>
                 <th>{gt text='Actions'}</th>
             </tr>
         </thead>

@@ -72,12 +72,25 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
         // Get parameters from whatever input we need.
         $startnum = FormUtil::getPassedValue('startnum', isset($args['startnum']) ? $args['startnum'] : null, 'GET');
         $keyword  = FormUtil::getPassedValue('quotes_keyword', isset($args['quotes_keyword']) ? $args['quotes_keyword'] : '', 'POST');
+        $keyword_GET  = FormUtil::getPassedValue('keyword', isset($args['keyword']) ? $args['keyword'] : '', 'GET');
+		if ($keyword_GET) $keyword = $keyword_GET;
         $author   = FormUtil::getPassedValue('quotes_author', isset($args['quotes_author']) ? $args['quotes_author'] : '', 'POST');
+        $author_GET  = FormUtil::getPassedValue('author', isset($args['author']) ? $args['author'] : '', 'GET');
+		if ($author_GET) $author = $author_GET;
         $property = FormUtil::getPassedValue('quotes_property', isset($args['quotes_property']) ? $args['quotes_property'] : null, 'POST');
+        $property_GET = FormUtil::getPassedValue("property", isset($args["property"]) ? $args["property"] : null, 'GET');
+		if ($property_GET) $property = $property_GET;
         $category = FormUtil::getPassedValue("quotes_{$property}_category", isset($args["quotes_{$property}_category"]) ? $args["quotes_{$property}_category"] : null, 'POST');
+        $category_GET = FormUtil::getPassedValue("category", isset($args["category"]) ? $args["category"] : null, 'GET');
+		if ($category_GET) $category = $category_GET;
         $clear    = FormUtil::getPassedValue('clear', false, 'POST');
         if ($clear) {
             $property = $category = $keyword = $author = null;
+        }
+        $sort = FormUtil::getPassedValue('sort', $sort, 'GET');
+        $sortdir = FormUtil::getPassedValue('sortdir', $sortdir, 'GET');
+        if ($sortdir != 'ASC' && $sortdir != 'DESC') {
+                $sortdir = 'ASC';
         }
 
         // get all module vars
@@ -103,15 +116,16 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
                 $propArray[$prop] = $prop;
             }
         }
-
-        // get the matching quotes
-        $quotes = ModUtil::apiFunc($this->name, 'user', 'getall',
-                array('startnum' => $startnum,
+		
+		$filter = array('startnum' => $startnum, 'sort' => $sort, 'sortdir' => $sortdir,
                 'numitems' => $modvars['itemsperpage'],
                 'keyword'  => $keyword,
                 'author'   => $author,
                 'category' => isset($catFilter) ? $catFilter : null,
-                'catregistry'  => isset($catregistry) ? $catregistry : null));
+                'catregistry'  => isset($catregistry) ? $catregistry : null);
+
+        // get the matching quotes
+        $quotes = ModUtil::apiFunc($this->name, 'user', 'getall', $filter);
 
         $items = array();
         foreach ($quotes as $key => $quote)
@@ -144,6 +158,8 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
         // add the current filters
         $this->view->assign('quotes_author', $author);
         $this->view->assign('quotes_keyword', $keyword);
+        $this->view->assign('sort', $sort);
+        $this->view->assign('sortdir', $sortdir);
 
         // assign the categories information if enabled
         if ($modvars['enablecategorization']) {

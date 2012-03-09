@@ -80,7 +80,14 @@ class Quotes_Api_User extends Zikula_AbstractApi
         }
 
         $where = $this->_process_args($args);
-        $sort  = 'ORDER BY qid DESC';
+        $sort = isset($args['sort']) && $args['sort'] ? $args['sort'] : '';
+        $sortdir = isset($args['sortdir']) && $args['sortdir'] ? $args['sortdir'] : 'ASC';
+        if ($sort) {
+			if ($sort=='qid') $sort .= ' '.$sortdir;
+            else $sort .= ' '.$sortdir.', qid '.$sortdir;
+        } else {
+            $sort = 'qid DESC';
+        }
 
         // define the permissions filter to use
         $permFilter = array();
