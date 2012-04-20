@@ -65,7 +65,7 @@ class Quotes_Block_Quote extends Zikula_Controller_AbstractBlock
 		// Implementation cached content: @nikp
 		$enable_cache = true;
 		$write_to_cache = false;	# flag
-		$cache_time = 120; # seconds
+		$cache_time = 240; # seconds
 		if (isset($vars['cache_time'])) $cache_time = $vars['cache_time'];
 		$content = "";
 		if ($enable_cache and $cache_time>0) {
@@ -88,6 +88,7 @@ class Quotes_Block_Quote extends Zikula_Controller_AbstractBlock
 		}
 		if (empty($content)) {
 			// Create output object
+            $this->view->setCaching(false); // we implement caching other way
 			mt_srand((double)microtime()*1000000);
 			$quote = array();
 			$apiargs = array();
