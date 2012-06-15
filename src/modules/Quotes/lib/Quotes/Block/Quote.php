@@ -61,6 +61,11 @@ class Quotes_Block_Quote extends Zikula_Controller_AbstractBlock
 		if (!isset($vars['category'])) {
 			$vars['category'] = null;
 		}
+		
+		if (isset($vars['ballooncolor']))
+		    $ballooncolor = $vars['ballooncolor'];
+		else
+		    $ballooncolor="grey";
 
 		// Implementation cached content: @nikp
 		$enable_cache = true;
@@ -126,6 +131,7 @@ class Quotes_Block_Quote extends Zikula_Controller_AbstractBlock
 			}
 			$this->view->assign('quote', $quote);
 			$this->view->assign('bid', $blockinfo['bid']);
+			$this->view->assign('ballooncolor', $ballooncolor);
 			$content = $this->view->fetch('quotes_block_quote.tpl'); # get the block output from the template
 		}
 		if ($write_to_cache and !empty($content)) {
@@ -185,6 +191,11 @@ class Quotes_Block_Quote extends Zikula_Controller_AbstractBlock
 		if (!isset($vars['cache_dir'])) {
 			$vars['cache_dir'] = 'any_cache';
 		}
+		if (!isset($vars['ballooncolor'])) {
+			$vars['ballooncolor'] = 'grey';
+		}
+		$ballooncolor=$vars['ballooncolor'];
+		$this->view->assign('balloonselected'.$ballooncolor, 'selected="selected"');
 		// Create output object
 		$this->view->caching = false; # Admin output changes often, we do not want caching
 		// Select categories only if enabled for the module
@@ -234,7 +245,20 @@ class Quotes_Block_Quote extends Zikula_Controller_AbstractBlock
 		$vars['cache_time'] = FormUtil::getPassedValue('cache_time');
 		$vars['cache_dir'] = FormUtil::getPassedValue('cache_dir');
 		$vars['category'] = FormUtil::getPassedValue('category', null);
-
+		$ballooncolor = FormUtil::getPassedValue('ballooncolor', 'grey');
+		// Make sure color is allowed.
+		switch ($ballooncolor) {
+		    case 'black':
+		    case 'grey':
+		    case 'green':
+		    case 'white':
+		    case 'yellow':
+			break;
+		    
+		    default:
+			$ballooncolor = 'grey';
+		}
+		$vars['ballooncolor'] = $ballooncolor;
 		// write back the new contents
 		$blockinfo['content'] = BlockUtil::varsToContent($vars);
 
