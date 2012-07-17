@@ -112,7 +112,7 @@ class Quotes_Api_User extends Zikula_AbstractApi
         }
 
         // get the object array from the db
-        $objArray = DBUtil::selectObjectArray('quotes', $where, $sort, $args['startnum']-1, $args['numitems'], '', $permFilter, $args['catFilter']);
+        $objArray = DBUtil::selectObjectArray('quotes', $where, $sort, $args['startnum'], $args['numitems'], '', $permFilter, $args['catFilter']);
         
         // check for an error with the database code, and if so set an appropriate
         // error message and return
