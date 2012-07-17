@@ -1,0 +1,16 @@
+/**
+ * Zikula Application Framework
+ * @copyright  (c) Zikula Development Team
+ * @license    GNU/GPL
+ * @category   Zikula_3rdParty_Modules
+ * @package    Content_Management
+ * @subpackage Quotes
+*/
+.z-bkey-quote q {
+    display: block;
+}
+.z-bkey-quote span {
+    background: transparent url('../images/bg_quote_grey.gif') no-repeat scroll left 3px;
+    display: block;
+    padding: 15px 0 0 17px;
+}
