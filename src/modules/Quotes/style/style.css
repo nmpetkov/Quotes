@@ -10,7 +10,22 @@
     display: block;
 }
 .z-bkey-quote span {
-    background: transparent url('../images/bg_quote_grey.gif') no-repeat scroll left 3px;
     display: block;
     padding: 15px 0 0 17px;
+}
+
+.z-bkey-quote span.balloon_color_grey{
+    background: transparent url('../images/bg_quote_grey.gif') no-repeat scroll left 3px;
+}
+.z-bkey-quote span.balloon_color_black{
+    background: transparent url('../images/bg_quote_black.gif') no-repeat scroll left 3px;
+}
+.z-bkey-quote span.balloon_color_white{
+    background: transparent url('../images/bg_quote_white.gif') no-repeat scroll left 3px;
+}
+.z-bkey-quote span.balloon_color_green{
+    background: transparent url('../images/bg_quote_green.gif') no-repeat scroll left 3px;
+}
+.z-bkey-quote span.balloon_color_yellow{
+    background: transparent url('../images/bg_quote_yellow.gif') no-repeat scroll left 3px;
 }

@@ -76,6 +76,16 @@
 </div>
 {/if}
 <div class="z-formrow">
+    <label for="blocks_ballooncolor">{gt text="Color for Author divider line"}</label>
+    <select id="blocks_ballooncolor" name="ballooncolor">
+	<option value="grey" {$balloonselectedgrey}>Grey</option>
+	<option value="black" {$balloonselectedblack}>Black</option>
+	<option value="green" {$balloonselectedgreen}>Green</option>
+	<option value="white" {$balloonselectedwhite}>White</option>
+	<option value="yellow" {$balloonselectedyellow}>Yellow</option>
+    </select>
+</div>
+<div class="z-formrow">
     <label for="blocks_cache_time">{gt text="Cache time (enter positive number in seconds to enable cache)"}</label>
     <input id="blocks_cache_time" type="text" name="cache_time" size="10" maxlength="50" value="{$cache_time|safetext}" />
 </div>
