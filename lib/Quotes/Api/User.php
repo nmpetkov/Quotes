@@ -41,12 +41,15 @@ class Quotes_Api_User extends Zikula_AbstractApi
 
         // build the where clause
         $wheres = array();
+        if (isset($args['qid'])) {
+            $wheres[] = "qid = ".DataUtil::formatForStore($args['qid']);
+        }
         if ($args['author']) {
             $wheres[] = "author = '".DataUtil::formatForStore($args['author'])."'";
         }
-		if (isset($args['status'])) {
-			$wheres[] = "status = '".DataUtil::formatForStore($args['status'])."'";
-		}
+        if (isset($args['status'])) {
+            $wheres[] = "status = '".DataUtil::formatForStore($args['status'])."'";
+        }
 
         if ($args['category']){
             if (is_array($args['category'])) {
@@ -83,7 +86,7 @@ class Quotes_Api_User extends Zikula_AbstractApi
         $sort = isset($args['sort']) && $args['sort'] ? $args['sort'] : '';
         $sortdir = isset($args['sortdir']) && $args['sortdir'] ? $args['sortdir'] : 'ASC';
         if ($sort) {
-			if ($sort=='qid') $sort .= ' '.$sortdir;
+            if ($sort=='qid') $sort .= ' '.$sortdir;
             else $sort .= ' '.$sortdir.', qid '.$sortdir;
         } else {
             $sort = 'qid DESC';
@@ -187,5 +190,39 @@ class Quotes_Api_User extends Zikula_AbstractApi
         $where = $this->_process_args($args);
 
         return DBUtil::selectObjectCount('quotes', $where, 'qid', false, $args['catFilter']);
+    }
+
+    /**
+     * get random item
+     * @return mixed array, or false on failure
+     * @param 'args['catFilter']' if exist category filter
+     */
+    function getrandom($args)
+    {
+        $quote = array();
+
+        if (!SecurityUtil::checkPermission('Quotes::', '::', ACCESS_READ)) {
+            return $quote;
+        }
+
+        $total  = ModUtil::apiFunc($this->name, 'user', 'countitems', $args); # count the number of quotes in the db
+
+        $args['numitems'] = 1;
+        if ($total < 1) {
+            // display an error if there are less than two quotes in the db, otherwise assign a random quote to the template
+            $quote['error'] = __('There are too few Quotes in the database');
+        } else if ($total == 1) {
+            $quotes = ModUtil::apiFunc($this->name, 'user', 'getall', $args);
+            $quote = $quotes[0];
+        } else {
+            $random = mt_rand(1, $total);
+            $args['startnum'] = $random - 1; // MySql OFFSET first row is 0
+            $args['sort'] = 'qid';
+            $quotes = ModUtil::apiFunc($this->name, 'user', 'getall', $args);
+            $quote = $quotes[0]; // assign the first quote in the result set
+        }
+
+        // Return the items
+        return $quote;
     }
 }

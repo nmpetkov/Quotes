@@ -17,5 +17,6 @@
 			<a href="{modurl modname='Quotes' type='admin' func='view'}">{img modname='core' src='button_cancel.gif' set='icons/small' __alt='Cancel' __title='Cancel'}</a>
 		</div>
 	</div>
+{notifydisplayhooks eventname='quotes.ui_hooks.items.form_delete' id=$qid}
 </form>
 {adminfooter}

@@ -37,6 +37,9 @@ class Quotes_Installer extends Zikula_AbstractInstaller
         // set up module variables
         ModUtil::setVars('Quotes', $modvars);
 
+        // Register for hooks subscribing
+        HookUtil::registerSubscriberBundles($this->version->getHookSubscriberBundles());
+
         // initialisation successful
         return true;
     }
@@ -102,6 +105,10 @@ class Quotes_Installer extends Zikula_AbstractInstaller
 					return "2.5";
 				}
             case '3.0.0':
+                // Register for hook subscribing
+                HookUtil::registerSubscriberBundles($this->version->getHookSubscriberBundles());
+
+            case '3.1.0':
 				// future upgrade routines
         }
 
@@ -127,6 +134,9 @@ class Quotes_Installer extends Zikula_AbstractInstaller
         ModUtil::dbInfoLoad('Categories');
         DBUtil::deleteWhere('categories_registry', "crg_modname = 'Quotes'");
         DBUtil::deleteWhere('categories_mapobj', "cmo_modname = 'Quotes'");
+
+        // unregister handlers
+        HookUtil::unregisterSubscriberBundles($this->version->getHookSubscriberBundles());
 
         // deletion successful
         return true;
