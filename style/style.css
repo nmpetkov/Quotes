@@ -1,7 +1,7 @@
-﻿.z-bkey-quote q {
+﻿.z-bkey-quote q, .quote_display q {
     display: block;
 }
-.z-bkey-quote span {
+.z-bkey-quote span, .quote_display span {
     display: block;
     padding: 15px 0 0 17px;
 }
