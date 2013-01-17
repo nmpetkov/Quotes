@@ -40,7 +40,7 @@
         </div>
     </fieldset>
 
-    {notifydisplayhooks eventname='ephemerids.ui_hooks.items.form_edit' id=null}
+    {notifydisplayhooks eventname='quotes.ui_hooks.items.form_edit' id=null}
 
     <div class="z-buttonrow z-buttons z-center">
         {button src='button_ok.gif' set='icons/small' __alt='Create' __title='Create'}
