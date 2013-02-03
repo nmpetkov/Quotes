@@ -41,13 +41,16 @@ class Quotes_Controller_User extends Zikula_AbstractController
             $args['qid'] = $qid;
         }
 
+        // Chek permissions
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Quotes::', '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
+
         // check if the contents are cached.
         $template = 'quotes_user_display.tpl';
         if ($this->view->is_cached($template)) {
             return $this->view->fetch($template);
         }
 
-        // get items
+        // get item
         if (isset($args['qid']) and $args['qid']>0) {
             $items = ModUtil::apiFunc($this->name, 'user', 'getall', $args);
             $quote = $items[0];

@@ -37,8 +37,9 @@ class Quotes_Installer extends Zikula_AbstractInstaller
         // set up module variables
         ModUtil::setVars('Quotes', $modvars);
 
-        // Register for hooks subscribing
+        // Register hooks
         HookUtil::registerSubscriberBundles($this->version->getHookSubscriberBundles());
+        HookUtil::registerProviderBundles($this->version->getHookProviderBundles());
 
         // initialisation successful
         return true;
@@ -75,25 +76,24 @@ class Quotes_Installer extends Zikula_AbstractInstaller
             case '2.1':
 				// add the categorization variable
                 ModUtil::setVar('Quotes', 'enablecategorization', true);
-				$sqlStatements = array();
             case '2.2':
             case '2.3':
             case '2.5':
                 $connection = Doctrine_Manager::getInstance()->getConnection('default');
-                $sqlStatements = array();
 				// drop table prefix
                 $prefix = $this->serviceManager['prefix'];
-                $sqlStatements[] = 'RENAME TABLE ' . $prefix . '_quotes' . " TO `quotes`";
-                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_qid` `qid` INT(11) NOT NULL AUTO_INCREMENT";
-                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_quote` `quote` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL";
-                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_author` `author` VARCHAR(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL";
-                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_obj_status` `obj_status` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'A'";
-                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_cr_date` `cr_date` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00'";
-                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_cr_uid` `cr_uid` INT(11) NOT NULL DEFAULT '0'";
-                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_lu_date` `lu_date` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00'";
-                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_lu_uid` `lu_uid` INT(11) NOT NULL DEFAULT '0'";
-                $sqlStatements[] = "ALTER TABLE `quotes` CHANGE `pn_status` `status` TINYINT(4) NULL DEFAULT '1'";
-                foreach ($sqlStatements as $sql) {
+                $sqlQueries = array();
+                $sqlQueries[] = 'RENAME TABLE ' . $prefix . '_quotes' . " TO `quotes`";
+                $sqlQueries[] = "ALTER TABLE `quotes` CHANGE `pn_qid` `qid` INT(11) NOT NULL AUTO_INCREMENT";
+                $sqlQueries[] = "ALTER TABLE `quotes` CHANGE `pn_quote` `quote` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL";
+                $sqlQueries[] = "ALTER TABLE `quotes` CHANGE `pn_author` `author` VARCHAR(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL";
+                $sqlQueries[] = "ALTER TABLE `quotes` CHANGE `pn_obj_status` `obj_status` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'A'";
+                $sqlQueries[] = "ALTER TABLE `quotes` CHANGE `pn_cr_date` `cr_date` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00'";
+                $sqlQueries[] = "ALTER TABLE `quotes` CHANGE `pn_cr_uid` `cr_uid` INT(11) NOT NULL DEFAULT '0'";
+                $sqlQueries[] = "ALTER TABLE `quotes` CHANGE `pn_lu_date` `lu_date` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00'";
+                $sqlQueries[] = "ALTER TABLE `quotes` CHANGE `pn_lu_uid` `lu_uid` INT(11) NOT NULL DEFAULT '0'";
+                $sqlQueries[] = "ALTER TABLE `quotes` CHANGE `pn_status` `status` TINYINT(4) NULL DEFAULT '1'";
+                foreach ($sqlQueries as $sql) {
                     $stmt = $connection->prepare($sql);
                     try {
                         $stmt->execute();
@@ -105,8 +105,21 @@ class Quotes_Installer extends Zikula_AbstractInstaller
 					return "2.5";
 				}
             case '3.0.0':
-                // Register for hook subscribing
+                // Register hooks
+                $connection = Doctrine_Manager::getInstance()->getConnection('default');
+                $sqlQueries = array();
+                $sqlQueries[] = 'DELETE FROM `hook_area` WHERE `owner`="Quotes"';
+                $sqlQueries[] = 'DELETE FROM `hook_subscriber` WHERE `owner`="Quotes"';
+                $sqlQueries[] = 'DELETE FROM `hook_provider` WHERE `owner`="Quotes"';
+                foreach ($sqlQueries as $sql) {
+                    $stmt = $connection->prepare($sql);
+                    try {
+                        $stmt->execute();
+                    } catch (Exception $e) {
+                    }   
+                }
                 HookUtil::registerSubscriberBundles($this->version->getHookSubscriberBundles());
+                HookUtil::registerProviderBundles($this->version->getHookProviderBundles());
 
             case '3.1.0':
 				// future upgrade routines
@@ -123,20 +136,19 @@ class Quotes_Installer extends Zikula_AbstractInstaller
      */
     public function uninstall()
     {
-        if (!DBUtil::dropTable('quotes')) {
-            return false;
-        }
+        DBUtil::dropTable('quotes');
 
         // delete module variables
         ModUtil::delVar('Quotes');
 
         // delete entries from category registry
-        ModUtil::dbInfoLoad('Categories');
-        DBUtil::deleteWhere('categories_registry', "crg_modname = 'Quotes'");
-        DBUtil::deleteWhere('categories_mapobj', "cmo_modname = 'Quotes'");
+        /*ModUtil::dbInfoLoad('Categories');
+        DBUtil::deleteWhere('categories_registry', "modname = 'Quotes'");
+        DBUtil::deleteWhere('categories_mapobj', "modname = 'Quotes'");*/
 
-        // unregister handlers
+        // Remove hooks
         HookUtil::unregisterSubscriberBundles($this->version->getHookSubscriberBundles());
+        HookUtil::unregisterProviderBundles($this->version->getHookProviderBundles());
 
         // deletion successful
         return true;

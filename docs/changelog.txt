@@ -1,10 +1,11 @@
 CHANGELOG
 =========
 
-#### 3.1.0 (15 Jan 2013)
+#### 3.1.0 (2 Feb 2013)
 	By N.Petkov.
-	* Updated to Zikula 1.3.6 standarts
+	* Updated to Zikula 1.3.5/1.3.6 standarts (have to work in both)
 	* Hooks subscriber support. This helps to use for example Scribite 5 and EZComments.
+	* Hook provider support. This permits to attach quotes to any module supporting display_view subscriber hook.
 	* Added main user type function, defaults to display function
 	* Added display function; wihout argument show random quote, or given quote by id.
 
