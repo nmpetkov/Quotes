@@ -112,7 +112,9 @@ class Quotes_Block_Quote extends Zikula_Controller_AbstractBlock
             }
             $this->view->assign('enablecategorization', $enablecategorization);
             $this->view->assign($vars); // assign the block vars
-            if (!is_array($vars['category'])) $vars['category'] = array();
+            if (!isset($vars['category']) || !is_array($vars['category'])) {
+                $vars['category'] = array();
+            }
             $this->view->assign('category', $vars['category']);
 
             $quote = ModUtil::apiFunc($this->name, 'user', 'getrandom', $apiargs);
@@ -199,7 +201,9 @@ class Quotes_Block_Quote extends Zikula_Controller_AbstractBlock
         }
         $this->view->assign('enablecategorization', $enablecategorization);
         $this->view->assign($vars); // assign the block vars
-        if (!is_array($vars['category'])) $vars['category'] = array();
+        if (!isset($vars['category']) || !is_array($vars['category'])) {
+            $vars['category'] = array();
+        }
         $this->view->assign('category', $vars['category']);
         $this->view->assign('hours', range(0, 23));
         $this->view->assign('months', range(1, 12));

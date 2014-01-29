@@ -25,9 +25,9 @@
             {gt text='Choose a category' assign='lblDef'}
             {nocache}
             {foreach from=$catregistry key='property' item='category'}
-            {array_field_isset array=$__CATEGORIES__ field=$property assign='catExists'}
+            {array_field array=$__CATEGORIES__ field=$property assign='catExists'}
             {if $catExists}
-            {array_field_isset array=$__CATEGORIES__.$property field='id' returnValue=1 assign='selectedValue'}
+            {array_field array=$__CATEGORIES__.$property field='id' returnValue=1 assign='selectedValue'}
             {else}
             {assign var='selectedValue' value='0'}
             {/if}
@@ -59,8 +59,8 @@
     {notifydisplayhooks eventname='quotes.ui_hooks.items.form_edit' id=$qid}
 
     <div class="z-buttonrow z-buttons z-center">
-        {button src='button_ok.gif' set='icons/small' __alt='Update' __title='Update'}
-        <a href="{modurl modname='Quotes' type='admin' func='view'}">{img modname='core' src='button_cancel.gif' set='icons/small' __alt='Cancel' __title='Cancel'}</a>
+        {button src='button_ok.png' set='icons/small' __alt='Update' __title='Update'}
+        <a href="{modurl modname='Quotes' type='admin' func='view'}">{img modname='core' src='button_cancel.png' set='icons/small' __alt='Cancel' __title='Cancel'}</a>
     </div>
 </form>
 {adminfooter}

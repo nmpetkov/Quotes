@@ -67,7 +67,7 @@
     <label>{gt text='Choose categories'}</label>
     {nocache}
     {foreach from=$catregistry key='prop' item='cat'}
-    {array_field_isset array=$category field=$prop returnValue=1 assign='selectedValue'}
+    {array_field array=$category field=$prop returnValue=1 assign='selectedValue'}
     <div class="z-formnote">
         {selector_category category=$cat name="category[$prop]" multipleSize=5 selectedValue=$selectedValue}
     </div>
@@ -78,11 +78,11 @@
 <div class="z-formrow">
     <label for="blocks_ballooncolor">{gt text="Color for Author divider line"}</label>
     <select id="blocks_ballooncolor" name="ballooncolor">
-	<option value="grey" {$balloonselectedgrey}>Grey</option>
-	<option value="black" {$balloonselectedblack}>Black</option>
-	<option value="green" {$balloonselectedgreen}>Green</option>
-	<option value="white" {$balloonselectedwhite}>White</option>
-	<option value="yellow" {$balloonselectedyellow}>Yellow</option>
+	<option value="grey" {if $ballooncolor=='grey'} selected="selected"{/if}>Grey</option>
+	<option value="black" {if $ballooncolor=='black'} selected="selected"{/if}>Black</option>
+	<option value="green" {if $ballooncolor=='green'} selected="selected"{/if}>Green</option>
+	<option value="white" {if $ballooncolor=='white'} selected="selected"{/if}>White</option>
+	<option value="yellow" {if $ballooncolor=='yellow'} selected="selected"{/if}>Yellow</option>
     </select>
 </div>
 <div class="z-formrow">
