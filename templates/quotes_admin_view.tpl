@@ -1,4 +1,6 @@
 {ajaxheader modname='Quotes' filename='quotes.js' nobehaviour=true noscriptaculous=true}
+{gt text="Click to activate" assign=activate}
+{gt text="Click to deactivate" assign=deactivate}
 
 {adminheader}
 <div class="z-admin-content-pagetitle">
@@ -78,9 +80,16 @@
 			</td>
 			{/if}
 			<td>{$quote.qid|safetext}</td>
-			<td>
-				{if $quote.status eq 0}<strong><em>{gt text='Inactive'}</em></strong>{/if}
-				{if $quote.status eq 1}{gt text='Active'}{/if}
+			<td class="z-nowrap">
+                <div id="statusactive_{$quote.qid}" style="display: {if $quote.status}block{else}none{/if};">
+                    <a href="javascript:void(0);" onclick="setstatus({$quote.qid},0)">{img src="greenled.png" modname="core" set="icons/extrasmall" title=$deactivate alt=$deactivate}</a>
+                    &nbsp;{gt text="Active"}
+                </div>
+                <div id="statusinactive_{$quote.qid}" style="display: {if $quote.status}none{else}block{/if};">
+                    <a href="javascript:void(0);" onclick="setstatus({$quote.qid},1)">{img src="redled.png" modname="core" set="icons/extrasmall" title=$activate alt=$activate}</a>
+                    &nbsp;{gt text="Inactive"}
+                </div>
+                {img id="statusajaxind_"|cat:$quote.qid style="display: none;" modname=core set="ajax" src="indicator_circle.gif" alt=""}
 			</td>
 			<td>
 				{foreach item='option' from=$quote.options}

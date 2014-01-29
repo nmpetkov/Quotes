@@ -29,3 +29,43 @@ function quotes_property_onchange()
     var id = "quotes_"+$('quotes_property').value+"_category";
     $(id).show();
 }
+
+/**
+ * Toggle active/inactive status
+ */
+function setstatus(qid, status)
+{
+    ajaxindicator = document.getElementById("statusajaxind_"+qid);
+    ajaxindicator.style.display = "inline";
+
+    var pars = {qid: qid, status: status};
+    new Zikula.Ajax.Request("ajax.php?module=Quotes&func=setstatus",
+        {parameters: pars, onComplete: setstatus_response});
+}
+function setstatus_response(req)
+{
+    if (!req.isSuccess()) {
+        Zikula.showajaxerror(req.getMessage());
+        return;
+    }
+    var data = req.getData();
+    
+    if (data.alert) {
+        alert(data.alert);
+    }
+
+    ajaxindicator = document.getElementById("statusajaxind_"+data.qid);
+    ajaxindicator.style.display = "none";
+
+    elementActive = document.getElementById("statusactive_"+data.qid);
+    elementInactive = document.getElementById("statusinactive_"+data.qid);
+    if (elementActive && elementInactive) {
+        if (data.status == 1) {
+            elementActive.style.display = "block";
+            elementInactive.style.display = "none";
+        } else {
+            elementActive.style.display = "none";
+            elementInactive.style.display = "block";
+        }
+    }
+}
