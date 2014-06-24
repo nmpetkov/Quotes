@@ -7,6 +7,7 @@
 <form class="z-form" action="{modurl modname='Quotes' type='admin' func='update'}" method="post" enctype="application/x-www-form-urlencoded">
     <input type="hidden" name="csrftoken" value="{insert name='csrftoken'}" />
     <input type="hidden" name="quote[qid]" value="{$qid|safetext}" />
+    <input type="hidden" name="delcache" value="{$delcache|safetext}" />
     <fieldset class="z-linear">
         <legend>{gt text='Content'}</legend>
         <div class="z-formrow">

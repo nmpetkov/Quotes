@@ -84,7 +84,7 @@ class Quotes_Block_Quote extends Zikula_Controller_AbstractBlock
             } else {
                 $cachedir .= 'any_cache';
             }
-            $cachefile = $cachedir .'/'. $cachefilestem;
+            $cachefile = $cachedir .'/'. $cachefilestem . '_' . SecurityUtil::getSecurityLevel(SecurityUtil::getAuthInfo(), 'Quotes::', '::');
            // attempt to load from cache
             if (file_exists($cachefile)) {
                 $file_time = filectime($cachefile);
