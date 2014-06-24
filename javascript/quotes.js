@@ -39,7 +39,7 @@ function setstatus(qid, status)
     ajaxindicator.style.display = "inline";
 
     var pars = {qid: qid, status: status};
-    new Zikula.Ajax.Request(Zikula.Config.baseURL+"ajax.php?module=Quotes&func=setstatus",
+    new Zikula.Ajax.Request(Zikula.Config.baseURL+"ajax.php?module=Quotes&type=ajax&func=setstatus",
         {parameters: pars, onComplete: setstatus_response});
 }
 function setstatus_response(req)
