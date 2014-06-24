@@ -100,7 +100,7 @@ class Quotes_Installer extends Zikula_AbstractInstaller
                     } catch (Exception $e) {
                     }   
                 }
-				// update table structure according to tabe defenition
+				// update table structure according to table definition
 				if (!DBUtil::changeTable('quotes')) {
 					return "2.5";
 				}

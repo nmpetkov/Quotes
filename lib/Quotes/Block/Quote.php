@@ -76,9 +76,14 @@ class Quotes_Block_Quote extends Zikula_Controller_AbstractBlock
         if ($enable_cache and $cache_time>0) {
             $cachefilestem = 'quote_' . $blockinfo['bid'];
             $cachedir = System::getVar('temp');
-            if (StringUtil::right($cachedir, 1)<>'/') $cachedir .= '/';
-            if (isset($vars['cache_dir']) and !empty($vars['cache_dir'])) $cachedir .= $vars['cache_dir'];
-            else $cachedir .= 'any_cache';
+            if (StringUtil::right($cachedir, 1)<>'/') {
+                $cachedir .= '/';
+            }
+            if (isset($vars['cache_dir']) and !empty($vars['cache_dir'])) {
+                $cachedir .= $vars['cache_dir'];
+            } else {
+                $cachedir .= 'any_cache';
+            }
             $cachefile = $cachedir .'/'. $cachefilestem;
            // attempt to load from cache
             if (file_exists($cachefile)) {
@@ -89,7 +94,9 @@ class Quotes_Block_Quote extends Zikula_Controller_AbstractBlock
                     $content = file_get_contents($cachefile);
                 }
             }
-            if (empty($content)) $write_to_cache = true; # not loaded, flag to write to cache later
+            if (empty($content)) {
+                $write_to_cache = true; # not loaded, flag to write to cache later
+            }
         }
         if (empty($content)) {
             // Create output object
