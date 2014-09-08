@@ -13,7 +13,7 @@ class Quotes_Version extends Zikula_AbstractVersion
         $meta = array();
         $meta['displayname'] = $this->__('Quotes publisher');
         $meta['description'] = $this->__('Manage and display quotes or reflections, with support for categories.');
-        $meta['version'] = '3.1.0';
+        $meta['version'] = '3.1.1';
         $meta['url'] = $this->__('quotes');
         $meta['core_min'] = '1.3.0'; // requires minimum 1.3.0 or later
         $meta['capabilities']   = array(HookUtil::SUBSCRIBER_CAPABLE => array('enabled' => true),

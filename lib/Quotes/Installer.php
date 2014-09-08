@@ -122,6 +122,9 @@ class Quotes_Installer extends Zikula_AbstractInstaller
                 HookUtil::registerProviderBundles($this->version->getHookProviderBundles());
 
             case '3.1.0':
+                ModUtil::setVar('Quotes', 'enablefacebookshare', false);
+
+            case '3.1.1':
 				// future upgrade routines
         }
 

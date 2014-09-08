@@ -16,6 +16,10 @@
 				<label for="quotes_itemsperpage">{gt text='Items per page'}</label>
 				<input id="quotes_itemsperpage" type="text" name="itemsperpage" size="3" value="{$itemsperpage|safetext}" />
 			</div>
+			<div class="z-formrow">
+				<label for="quotes_enablefacebookshare">{gt text='Enable Facebook share button'}</label>
+				<input id="quotes_enablefacebookshare" type="checkbox" name="enablefacebookshare"{if $enablefacebookshare} checked="checked"{/if} />
+			</div>
 		</fieldset>
 		<div class="z-formbuttons">
 			{button src='button_ok.png' set='icons/small' __alt='Save' __title='Save'}

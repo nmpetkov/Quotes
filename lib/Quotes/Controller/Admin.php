@@ -402,6 +402,7 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
         $modvars = array();
         $modvars['itemsperpage'] = FormUtil::getPassedValue('itemsperpage', 25, 'POST');
         $modvars['enablecategorization'] = (bool)FormUtil::getPassedValue('enablecategorization', false, 'POST');
+        $modvars['enablefacebookshare'] = (bool)FormUtil::getPassedValue('enablefacebookshare', false, 'POST');
 		$this->setVars($modvars);
 
         // the module configuration has been updated successfuly
