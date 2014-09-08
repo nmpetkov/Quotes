@@ -132,6 +132,9 @@ class Quotes_Controller_Admin extends Zikula_AbstractController
         {
             // options for the item
             $options = array();
+            $quotes[$key]['options'][] = array('url'   => ModUtil::url($this->name, 'user', 'display', array('qid' => $quote['qid'])),
+                    'image' => 'demo.png',
+                    'title' => $this->__('View'));
             if (SecurityUtil::checkPermission('Quotes::', $quote['author']."::".$quote['qid'], ACCESS_EDIT)) {
                 $quotes[$key]['options'][] = array('url'   => ModUtil::url($this->name, 'admin', 'modify', array('qid' => $quote['qid'])),
                         'image' => 'xedit.png',
