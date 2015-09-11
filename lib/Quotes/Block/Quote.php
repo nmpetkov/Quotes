@@ -193,6 +193,9 @@ class Quotes_Block_Quote extends Zikula_Controller_AbstractBlock
         }
         $ballooncolor=$vars['ballooncolor'];
         $this->view->assign('balloonselected'.$ballooncolor, 'selected="selected"');
+        if (!isset($vars['enablefacebookshare'])) {
+            $vars['enablefacebookshare'] = false;
+        }
         // Create output object
         $this->view->caching = false;
         // Select categories only if enabled for the module
@@ -258,6 +261,8 @@ class Quotes_Block_Quote extends Zikula_Controller_AbstractBlock
             $ballooncolor = 'grey';
         }
         $vars['ballooncolor'] = $ballooncolor;
+        $vars['enablefacebookshare'] = FormUtil::getPassedValue('enablefacebookshare', false);
+
         // write back the new contents
         $blockinfo['content'] = BlockUtil::varsToContent($vars);
 

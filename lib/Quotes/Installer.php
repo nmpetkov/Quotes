@@ -25,7 +25,8 @@ class Quotes_Installer extends Zikula_AbstractInstaller
         // set up module config variables
         $modvars = array(
                 'itemsperpage' => 25,
-                'enablecategorization' => true
+                'enablecategorization' => true,
+                'enablefacebookshare' => false
         );
 
         // create our default category

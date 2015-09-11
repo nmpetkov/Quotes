@@ -1,6 +1,6 @@
 {checkpermission component='Quotes::' instance='::' level='ACCESS_EDIT' assign='authedit'}
 <div class="quote_display">
-{if $quote.error}
+{if isset($quote.error) && $quote.error}
 {$quote.error|safehtml}
 {else}
 {setmetatag name='description' value=$quote.quote|strip_tags|trim|truncate:500}

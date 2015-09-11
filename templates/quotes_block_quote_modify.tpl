@@ -93,3 +93,7 @@
     <label for="blocks_cache_dir">{gt text="Cache directory name (within Zikula Temp directory)"}</label>
     <input id="blocks_cache_dir" type="text" name="cache_dir" size="30" maxlength="255" value="{$cache_dir|safetext}" />
 </div>
+<div class="z-formrow">
+    <label for="blocks_enablefacebookshare">{gt text='Enable Facebook share button'}</label>
+    <input id="blocks_enablefacebookshare" type="checkbox" name="enablefacebookshare"{if $enablefacebookshare} checked="checked"{/if} />
+</div>
