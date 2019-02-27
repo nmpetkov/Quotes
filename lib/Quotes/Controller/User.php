@@ -31,8 +31,8 @@ class Quotes_Controller_User extends Zikula_AbstractController
      */
     public function display($args)
     {
-        $qid   = FormUtil::getPassedValue('qid', isset($args['qid']) ? $args['qid'] : null, 'REQUEST');
-        $objectid = FormUtil::getPassedValue('objectid', isset($args['objectid']) ? $args['objectid'] : null, 'REQUEST');
+        $qid   = (int)FormUtil::getPassedValue('qid', isset($args['qid']) ? $args['qid'] : null, 'REQUEST');
+        $objectid = (int)FormUtil::getPassedValue('objectid', isset($args['objectid']) ? $args['objectid'] : null, 'REQUEST');
 
         if (!empty($objectid)) {
             $qid = $objectid;
